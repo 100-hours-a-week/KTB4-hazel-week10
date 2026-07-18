@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { logoutRequest } from "@/api/authApi.js";
 import { getMyInfoRequest } from "@/api/userApi.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
+import "./index.css";
 
 function Header({ type = "default" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -162,4 +163,4 @@ function Header({ type = "default" }) {
   );
 }
 
-export default header;
+export default Header;

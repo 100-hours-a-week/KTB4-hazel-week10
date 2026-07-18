@@ -1,0 +1,43 @@
+.password-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 24px 64px;
+}
+
+.title {
+  margin-bottom: 32px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+.password-edit-form {
+  width: 392px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.password-edit__button {
+  width: 100%;
+  height: 46px;
+  margin-top: 24px;
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: #021730;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.password-edit__button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

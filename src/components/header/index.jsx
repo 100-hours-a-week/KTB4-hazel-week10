@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { logoutRequest } from "@/api/authApi.js";
 import { getMyInfoRequest } from "@/api/userApi.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import "./index.css";
 
 function Header({ type = "default" }) {
+  const navigate = useNavigate();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
+
   const dropdownRef = useRef(null);
   const profileButtonRef = useRef(null);
 
@@ -15,13 +19,17 @@ function Header({ type = "default" }) {
 
   useEffect(() => {
     async function loadHeaderProfileImage() {
-      if (!hasProfile || !localStorage.getItem("accessToken")) return;
+      if (!hasProfile || !localStorage.getItem("accessToken")) {
+        return;
+      }
 
       try {
         const response = await getMyInfoRequest();
         const user = response?.data;
 
-        if (!user?.profileImage) return;
+        if (!user?.profileImage) {
+          return;
+        }
 
         setProfileImageUrl(resolveImageUrl(user.profileImage));
       } catch (error) {
@@ -52,15 +60,17 @@ function Header({ type = "default" }) {
   }, []);
 
   const handleBackClick = () => {
-    window.history.back();
+    navigate(-1);
   };
 
   const handleProfileEditClick = () => {
-    window.location.href = "../userEditPage/userEdit.html";
+    setIsDropdownOpen(false);
+    navigate("/users/edit");
   };
 
   const handlePasswordEditClick = () => {
-    window.location.href = "../passwordEditPage/passwordEdit.html";
+    setIsDropdownOpen(false);
+    navigate("/users/password");
   };
 
   const handleLogoutClick = async () => {
@@ -73,7 +83,7 @@ function Header({ type = "default" }) {
       localStorage.removeItem("tokenType");
       localStorage.removeItem("userId");
 
-      window.location.href = "../loginPage/login.html";
+      navigate("/login", { replace: true });
     }
   };
 
@@ -118,6 +128,7 @@ function Header({ type = "default" }) {
               className="header__profile-button"
               type="button"
               aria-label="프로필 메뉴"
+              aria-expanded={isDropdownOpen}
               onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
               <img
@@ -139,6 +150,7 @@ function Header({ type = "default" }) {
               >
                 회원정보수정
               </button>
+
               <button
                 className="header__dropdown-item header__menu-password-edit"
                 type="button"
@@ -146,6 +158,7 @@ function Header({ type = "default" }) {
               >
                 비밀번호수정
               </button>
+
               <button
                 className="header__dropdown-item header__menu-logout"
                 type="button"

@@ -1,5 +1,5 @@
-import { formatDate } from "../../../utils/formatDate.js";
-import { resolveImageUrl } from "../../../utils/resolveImageUrl.js";
+import { formatDate } from "@/utils/formatDate.js";
+import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 
 function handleImageError(event) {
   event.currentTarget.removeAttribute(
@@ -7,41 +7,22 @@ function handleImageError(event) {
   );
 }
 
-export default function CommentItem({
-  comment,
-  onEdit,
-  onDelete,
-}) {
-  const profileImageUrl =
-    resolveImageUrl(
-      comment.writerProfileImage,
-    );
+function CommentItem({ comment, onEdit, onDelete }) {
+  const profileImageUrl = resolveImageUrl(comment.writerProfileImage);
 
   return (
-    <div
-      className="comment-item"
-      data-comment-id={comment.id}
-    >
+    <div className="comment-item" data-comment-id={comment.id}>
       <img
         className="profile__image"
-        src={
-          profileImageUrl || undefined
-        }
+        src={profileImageUrl || undefined}
         alt=""
         onError={handleImageError}
       />
 
       <div className="comment-item__content">
         <div className="comment-item__meta">
-          <span className="comment-item__author">
-            {comment.writer}
-          </span>
-
-          <span className="comment-item__date">
-            {formatDate(
-              comment.createdAt,
-            )}
-          </span>
+          <span className="comment-item__author">{comment.writer}</span>
+          <span className="comment-item__date">{formatDate(comment.createdAt)}</span>
 
           {comment.isOwner && (
             <div className="comment-item__button-container">
@@ -68,10 +49,10 @@ export default function CommentItem({
           )}
         </div>
 
-        <p className="comment-item__text">
-          {comment.content}
-        </p>
+        <p className="comment-item__text">{comment.content}</p>
       </div>
     </div>
   );
 }
+
+export default CommentItem;

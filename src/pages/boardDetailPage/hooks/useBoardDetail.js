@@ -1,11 +1,5 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  fetchBoardDetail,
-} from "../detailService.js";
+import { useEffect, useState} from "react";
+import { fetchBoardDetail } from "../detailService.js";
 
 const INITIAL_DETAIL = {
   loadedPostId: null,
@@ -14,15 +8,9 @@ const INITIAL_DETAIL = {
   errorMessage: "",
 };
 
-export default function useBoardDetail(
-  postId,
-) {
-  const [detail, setDetail] =
-    useState(INITIAL_DETAIL);
-
-  const isValidPostId =
-    Number.isInteger(postId) &&
-    postId > 0;
+export default function useBoardDetail(postId) {
+  const [detail, setDetail] = useState(INITIAL_DETAIL);
+  const isValidPostId = Number.isInteger(postId) && postId > 0;
 
   useEffect(() => {
     if (!isValidPostId) {
@@ -49,10 +37,7 @@ export default function useBoardDetail(
           return;
         }
 
-        console.error(
-          "게시글 상세 조회 실패:",
-          error,
-        );
+        console.error("게시글 상세 조회 실패:", error);
 
         setDetail({
           loadedPostId: postId,
@@ -70,8 +55,7 @@ export default function useBoardDetail(
   }, [postId, isValidPostId]);
 
   const refresh = async () => {
-    const data =
-      await fetchBoardDetail(postId);
+    const data = await fetchBoardDetail(postId);
 
     setDetail({
       loadedPostId: postId,
@@ -81,25 +65,12 @@ export default function useBoardDetail(
     });
   };
 
-  const isLoading =
-    isValidPostId &&
-    detail.loadedPostId !== postId;
+  const isLoading = isValidPostId && detail.loadedPostId !== postId;
 
   return {
-    post:
-      detail.loadedPostId === postId
-        ? detail.post
-        : null,
-
-    comments:
-      detail.loadedPostId === postId
-        ? detail.comments
-        : [],
-
-    errorMessage:
-      detail.loadedPostId === postId
-        ? detail.errorMessage
-        : "",
+    post: detail.loadedPostId === postId ? detail.post : null,
+    comments: detail.loadedPostId === postId ? detail.comments : [],
+    errorMessage: detail.loadedPostId === postId ? detail.errorMessage : "",
 
     isLoading,
     isValidPostId,

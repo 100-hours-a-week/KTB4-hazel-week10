@@ -1,10 +1,5 @@
-import {
-  formatDate,
-} from "../../../utils/formatDate.js";
-
-import {
-  resolveImageUrl,
-} from "../../../utils/resolveImageUrl.js";
+import { formatDate } from "@/utils/formatDate.js";
+import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 
 function handleImageError(event) {
   event.currentTarget.removeAttribute(
@@ -24,15 +19,9 @@ function PostImages({ images = [] }) {
           <img
             key={`${imageUrl}-${index}`}
             className="detail__image"
-            src={
-              resolveImageUrl(
-                imageUrl,
-              ) || undefined
-            }
+            src={resolveImageUrl(imageUrl) || undefined}
             alt={`게시글 이미지 ${index + 1}`}
-            onError={
-              handleImageError
-            }
+            onError={handleImageError}
           />
         ),
       )}
@@ -40,47 +29,27 @@ function PostImages({ images = [] }) {
   );
 }
 
-export default function PostContent({
-  post,
-  onEdit,
-  onDelete,
-}) {
-  const profileImageUrl =
-    resolveImageUrl(
-      post.writerProfileImage,
-    );
+export default function PostContent({ post, onEdit, onDelete }) {
+  const profileImageUrl = resolveImageUrl(post.writerProfileImage);
 
   return (
     <>
-      <h2 className="detail__title">
-        {post.title}
-      </h2>
+      <h2 className="detail__title">{post.title}</h2>
 
       <div className="detail__meta">
         <div className="detail__mate-container">
           <div className="profile-container">
             <img
               className="profile__image"
-              src={
-                profileImageUrl ||
-                undefined
-              }
+              src={profileImageUrl || undefined}
               alt=""
-              onError={
-                handleImageError
-              }
+              onError={handleImageError}
             />
 
-            <div className="profile__name">
-              {post.writer}
-            </div>
+            <div className="profile__name">{post.writer}</div>
           </div>
 
-          <span className="detail__date">
-            {formatDate(
-              post.createdAt,
-            )}
-          </span>
+          <span className="detail__date">{formatDate(post.createdAt)}</span>
         </div>
 
         {post.isOwner && (
@@ -106,33 +75,21 @@ export default function PostContent({
 
       <div className="line" />
 
-      <PostImages
-        images={post.images}
-      />
-
-      <p className="detail__content">
-        {post.text}
-      </p>
-
+      <PostImages images={post.images}/>
+      <p className="detail__content">{post.text}</p>
       <div className="detail__count-container">
         <div className="detail__count-box">
-          <strong>
-            {post.likeCount}
-          </strong>
+          <strong>{post.likeCount}</strong>
           <span>좋아요수</span>
         </div>
 
         <div className="detail__count-box">
-          <strong>
-            {post.views}
-          </strong>
+          <strong>{post.views}</strong>
           <span>조회수</span>
         </div>
 
         <div className="detail__count-box">
-          <strong>
-            {post.comments}
-          </strong>
+          <strong>{post.comments}</strong>
           <span>댓글</span>
         </div>
       </div>

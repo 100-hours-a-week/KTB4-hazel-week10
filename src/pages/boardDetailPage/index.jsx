@@ -32,20 +32,9 @@ function BoardDetailPage() {
 
   const { post, comments, errorMessage, isLoading, isValidPostId, refresh } = useBoardDetail(postId);
   const [ commentContent, setCommentContent ] = useState("");
-
   const [ selectedCommentId, setSelectedCommentId ] = useState(null);
-
-  const {
-    value: isSubmitting,
-    setTrue: startSubmitting,
-    setFalse: finishSubmitting,
-  } = useBooleanState(false);
-
-  const {
-    value: isDeleting,
-    setTrue: startDeleting,
-    setFalse: finishDeleting,
-  } = useBooleanState(false);
+  const {value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting} = useBooleanState(false);
+  const {value: isDeleting, setTrue: startDeleting, setFalse: finishDeleting} = useBooleanState(false);
 
   useEffect(() => {
     document.title = "게시글 상세";
@@ -72,8 +61,7 @@ function BoardDetailPage() {
   };
 
   const handleCreateComment = async () => {
-    const content =
-      commentContent.trim();
+    const content = commentContent.trim();
 
     if (!content) {
       window.alert(
@@ -204,9 +192,7 @@ function BoardDetailPage() {
               <>
                 <PostContent
                   post={post}
-                  onEdit={() =>
-                    navigate(getEditPath(postId))
-                  }
+                  onEdit={() => navigate(getEditPath(postId))}
                   onDelete={handleDeletePost}
                 />
 
@@ -215,9 +201,7 @@ function BoardDetailPage() {
                     className="comment-form__textarea"
                     placeholder="댓글을 남겨주세요!"
                     value={commentContent}
-                    onChange={(event) =>
-                      setCommentContent(event.target.value)
-                    }
+                    onChange={(event) => setCommentContent(event.target.value)}
                   />
 
                   <div className="comment-form__button-outline">
@@ -225,22 +209,16 @@ function BoardDetailPage() {
                       className="comment-form__button"
                       type="button"
                       disabled={isSubmitting}
-                      onClick={
-                        handleCreateComment
-                      }
+                      onClick={handleCreateComment}
                     >
-                      {isSubmitting
-                        ? "등록 중..."
-                        : "댓글 등록"}
+                      {isSubmitting ? "등록 중..." : "댓글 등록"}
                     </button>
                   </div>
                 </div>
 
                 <div className="comment-list">
                   {!comments.length && (
-                    <p className="comment-list__empty">
-                      등록된 댓글이 없습니다.
-                    </p>
+                    <p className="comment-list__empty">등록된 댓글이 없습니다.</p>
                   )}
 
                   {comments.map(
@@ -248,12 +226,8 @@ function BoardDetailPage() {
                       <CommentItem
                         key={comment.id}
                         comment={comment}
-                        onEdit={
-                          handleEditComment
-                        }
-                        onDelete={
-                          setSelectedCommentId
-                        }
+                        onEdit={handleEditComment}
+                        onDelete={setSelectedCommentId}
                       />
                     ),
                   )}

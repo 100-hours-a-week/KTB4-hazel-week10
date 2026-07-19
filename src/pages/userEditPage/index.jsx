@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
-import Input from "@/components/input/index.jsx";
 import { deleteMyAccountRequest, getMyInfoRequest, updateMyInfoRequest } from "@/api/userApi.js";
 import useBooleanState from "@/utils/isBooleanState.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
+import UserEditForm from "./components/UserEditForm.jsx";
 import { clearAuthData, createUserEditFormData } from "./userEditUtils.js";
 import { INITIAL_USER } from "./initialState.js";
 import "./index.css";
-
-function handleImageError(event) {
-  event.currentTarget.removeAttribute("src");
-}
 
 function UserEditPage() {
   const navigate = useNavigate();
@@ -25,8 +21,17 @@ function UserEditPage() {
   const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
 
-  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
-  const { value: isWithdrawing, setTrue: startWithdrawing, setFalse: finishWithdrawing } = useBooleanState(false);
+  const {
+    value: isSubmitting,
+    setTrue: startSubmitting,
+    setFalse: finishSubmitting,
+  } = useBooleanState(false);
+
+  const {
+    value: isWithdrawing,
+    setTrue: startWithdrawing,
+    setFalse: finishWithdrawing,
+  } = useBooleanState(false);
 
   const profileImageUrl =
     previewUrl || resolveImageUrl(user.profileImage) || undefined;
@@ -199,64 +204,15 @@ function UserEditPage() {
 
         {isLoaded && !loadErrorMessage && (
           <>
-            <form
-              className="user-edit-form"
+            <UserEditForm
+              user={user}
+              profileImageUrl={profileImageUrl}
+              nicknameError={nicknameError}
+              isSubmitting={isSubmitting}
+              onNicknameChange={handleNicknameChange}
+              onProfileImageChange={handleProfileImageChange}
               onSubmit={handleSubmit}
-              noValidate
-            >
-              <div className="profile-field">
-                <p className="profile-field__label">프로필 사진*</p>
-
-                <label
-                  className="profile-field__button"
-                  htmlFor="profileImage"
-                >
-                  <img
-                    className="profile-field__image"
-                    src={profileImageUrl}
-                    alt="프로필 사진"
-                    onError={handleImageError}
-                  />
-                  <span className="profile-field__overlay">변경</span>
-                </label>
-
-                <input
-                  id="profileImage"
-                  name="profileImage"
-                  className="profile-field__input"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleProfileImageChange}
-                />
-              </div>
-
-              <div className="form-container">
-                <div className="form__item">
-                  <span className="form__label">이메일</span>
-                  <p className="form__text">{user.email}</p>
-                </div>
-
-                <Input
-                  id="nickname"
-                  name="nickname"
-                  label="닉네임"
-                  type="text"
-                  placeholder="닉네임을 입력하세요"
-                  required
-                  value={user.nickname}
-                  helperText={nicknameError}
-                  onChange={handleNicknameChange}
-                />
-              </div>
-
-              <button
-                className="user-edit__button"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "수정 중..." : "수정하기"}
-              </button>
-            </form>
+            />
 
             <button
               className="user-edit__withdraw-button"

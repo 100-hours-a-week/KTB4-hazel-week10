@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import Input from "../../components/input/index.jsx";
 import { signupRequest } from "@/api/authApi.js";
-import useBooleanState from "../../utils/isBooleanState.js"
+import useBooleanState from "../../utils/useBooleanState.js"
 
 import ProfileImageField from "./components/ProfileImageField.jsx";
 import { INITIAL_FORM, INITIAL_ERRORS } from "./initialState.js";

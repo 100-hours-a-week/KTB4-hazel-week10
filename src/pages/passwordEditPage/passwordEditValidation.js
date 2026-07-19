@@ -1,4 +1,4 @@
-import { isValidPassword } from "../../utils/validation/signupValidation.js";
+import { isValidPassword } from "../../utils/validation/validators.js";
 import { INITIAL_ERRORS } from "./initialState.js";
 
 export function normalizePasswordForm(form) {

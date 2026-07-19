@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import { createBoardRequest } from "../../api/boardApi.js";
-import useBooleanState from "../../utils/isBooleanState.js";
+import useBooleanState from "../../utils/useBooleanState.js";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, hasValidationError, normalizeBoardForm, validateBoardForm } from "./boardWriteUtils.js";
 import "./index.css";

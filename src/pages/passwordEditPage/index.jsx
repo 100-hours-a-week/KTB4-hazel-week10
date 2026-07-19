@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import Input from "../../components/input/index.jsx";
 import { changePasswordRequest } from "../../api/userApi.js";
-import useBooleanState from "../../utils/isBooleanState.js";
+import useBooleanState from "../../utils/useBooleanState.js";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { PASSWORD_FIELDS } from "./passwordEditFields.js";
 import { hasValidationError, normalizePasswordForm, validatePasswordForm } from "./passwordEditValidation.js";

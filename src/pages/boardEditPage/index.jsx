@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import { getBoardDetailRequest, updateBoardRequest } from "../../api/boardApi.js";
-import useBooleanState from "../../utils/isBooleanState.js";
+import useBooleanState from "../../utils/useBooleanState.js";
 import ImagePreviewList from "./components/ImagePreviewList.jsx";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, getImageFileText, hasValidationError, normalizeEditForm, validateEditForm } from "./boardEditUtils.js";

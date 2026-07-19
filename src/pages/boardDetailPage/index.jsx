@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import Header from "../../components/header/index.jsx";
 import Modal from "../../components/modal/index.jsx";
-import useBooleanState from "../../utils/isBooleanState.js";
+import useBooleanState from "../../utils/useBooleanState.js";
 
 import { deleteBoardRequest } from "../../api/boardApi.js";
 import { createCommentRequest, deleteCommentRequest, updateCommentRequest } from "../../api/commentApi.js";

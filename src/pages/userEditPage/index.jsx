@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
 import { deleteMyAccountRequest, getMyInfoRequest, updateMyInfoRequest } from "@/api/userApi.js";
-import useBooleanState from "@/utils/isBooleanState.js";
+import useBooleanState from "@/utils/useBooleanState.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import UserEditForm from "./components/UserEditForm.jsx";
 import { clearAuthData, createUserEditFormData } from "./userEditUtils.js";

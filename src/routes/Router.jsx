@@ -1,15 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import LoginPage from "../pages/loginPage/index.jsx";
-import SignupPage from "../pages/signupPage/index.jsx";
+import LoginPage from "@/pages/loginPage/index.jsx";
+import SignupPage from "@/pages/signupPage/index.jsx";
 
-import BoardPage from "../pages/boardPage/index.jsx";
-import BoardWritePage from "../pages/postWritePage/index.jsx";
-import BoardDetailPage from "../pages/boardDetailPage/index.jsx";
-import BoardEditPage from "../pages/boardEditPage/index.jsx";
+import BoardPage from "@/pages/boardPage/index.jsx";
+import BoardWritePage from "@/pages/postWritePage/index.jsx";
+import BoardDetailPage from "@/pages/boardDetailPage/index.jsx";
+import BoardEditPage from "@/pages/boardEditPage/index.jsx";
 
-import UserEditPage from "../pages/userEditPage/index.jsx";
-import PasswordEditPage from "../pages/passwordEditPage/index.jsx";
+import UserEditPage from "@/pages/userEditPage/index.jsx";
+import PasswordEditPage from "@/pages/passwordEditPage/index.jsx";
 
 export default function Router() {
   return (

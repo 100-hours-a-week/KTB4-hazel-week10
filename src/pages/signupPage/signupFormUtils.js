@@ -3,7 +3,7 @@ import { INITIAL_ERRORS } from "./initialState.js";
 import {
   isValidEmail,
   isValidPassword,
-} from "../../utils/validation/signupValidation.js";
+} from "../../utils/validation/validators.js";
 
 export function normalizeSignupForm(form) {
   return {

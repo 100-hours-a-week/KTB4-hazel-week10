@@ -10,7 +10,7 @@ function clearSession() {
 
 function goToLogin() {
   clearSession();
-  location.href = "../loginPage/login.html";
+  location.href = "/login";
 }
 
 // accessToken 재발급. 동시에 여러 요청이 401을 맞아도 재발급은 한 번만 나가도록

@@ -32,10 +32,12 @@ export function createBoardFormData({ form, currentImages, newImages }) {
   formData.append("title", form.title);
   formData.append("text", form.content);
 
-  const images = newImages.length ? newImages : currentImages;
-
-  images.forEach((image) => {
+  newImages.forEach((image) => {
     formData.append("images", image);
+  });
+
+  currentImages.forEach((imagePath) => {
+    formData.append("remainImages", imagePath);
   });
 
   return formData;

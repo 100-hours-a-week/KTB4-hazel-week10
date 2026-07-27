@@ -95,7 +95,6 @@ function BoardEditPage() {
       return;
     }
 
-    setCurrentImages([]);
     setNewImages((prev) => [...prev, ...selectedFiles]);
     event.target.value = "";
   };

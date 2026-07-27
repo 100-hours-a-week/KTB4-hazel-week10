@@ -1,4 +1,6 @@
-export default function Modal({
+import "./index.css";;
+
+function Modal({
   id = "modal",
   isOpen = false,
   title = "",
@@ -57,3 +59,5 @@ export default function Modal({
     </div>
   );
 }
+
+export default Modal;

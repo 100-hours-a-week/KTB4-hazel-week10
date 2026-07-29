@@ -170,7 +170,7 @@
   font-weight: 400;
 }
 
-.line {
+.line__item {
   height: 1px;
   background-color: #eef1f6;
 }

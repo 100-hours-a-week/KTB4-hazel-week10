@@ -57,7 +57,7 @@ function PostItem({ post, currentTime, onClick }) {
         <div className="count__text">{formatDate(createdAt)}</div>
       </div>
 
-      <div className="line" />
+      <div className="line__item" />
 
       <div className="profile-container">
         <img

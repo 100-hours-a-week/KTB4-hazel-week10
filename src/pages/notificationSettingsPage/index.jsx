@@ -14,17 +14,8 @@ function NotificationSettingsPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
 
-  const {
-    value: isSubmitting,
-    setTrue: startSubmitting,
-    setFalse: finishSubmitting,
-  } = useBooleanState(false);
-
-  const {
-    value: isSaved,
-    setTrue: markSaved,
-    setFalse: clearSaved,
-  } = useBooleanState(false);
+  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
+  const { value: isSaved, setTrue: markSaved, setFalse: clearSaved } = useBooleanState(false);
 
   useEffect(() => {
     document.title = "알림 설정";

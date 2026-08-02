@@ -1,9 +1,9 @@
 import { request } from "./http.js";
 
-export function getBoardsRequest(category = "") {
-  const query = category ? `?category=${category}` : "";
+export function getBoardsRequest(page = 0, size = 10, category = "") {
+  const categoryQuery = category ? `&category=${category}` : "";
 
-  return request(`/boards${query}`, {
+  return request(`/boards?page=${page}&size=${size}${categoryQuery}`, {
     method: "GET",
   });
 }

@@ -17,7 +17,9 @@ function BoardPage() {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(0);
   const [category, setCategory] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,18 +27,24 @@ function BoardPage() {
     document.title = "면접 질문 게시판";
   }, []);
 
+  const handleCategoryChange = (nextCategory) => {
+    setCategory(nextCategory);
+    setPage(0);
+  };
+
   useEffect(() => {
     let isCancelled = false;
 
     setIsLoading(true);
 
-    getBoardsRequest(category)
+    getBoardsRequest(page, 10, category)
       .then((response) => {
         if (isCancelled) {
           return;
         }
 
-        setPosts(response.data ?? []);
+        setPosts(response.data?.content ?? []);
+        setTotalPages(response.data?.totalPages ?? 0);
         setErrorMessage("");
       })
       .catch((error) => {
@@ -56,7 +64,7 @@ function BoardPage() {
     return () => {
       isCancelled = true;
     };
-  }, [category]);
+  }, [page, category]);
 
   return (
     <>
@@ -86,7 +94,7 @@ function BoardPage() {
           </button>
         </div>
 
-        <CategoryFilter value={category} onChange={setCategory} />
+        <CategoryFilter value={category} onChange={handleCategoryChange} />
 
         <div className="list-container">
           {isLoading && (
@@ -111,6 +119,30 @@ function BoardPage() {
               />
             ))}
         </div>
+
+        {!isLoading && !errorMessage && totalPages > 1 && (
+          <div className="pagination">
+            <button
+              className="pagination__button"
+              type="button"
+              disabled={page === 0}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              이전
+            </button>
+
+            <span className="pagination__text">{page + 1} / {totalPages}</span>
+
+            <button
+              className="pagination__button"
+              type="button"
+              disabled={page + 1 >= totalPages}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              다음
+            </button>
+          </div>
+        )}
       </main>
     </>
   );

@@ -5,7 +5,7 @@ import Header from "../../components/header/index.jsx";
 import Modal from "../../components/modal/index.jsx";
 import useBooleanState from "../../utils/useBooleanState.js";
 
-import { deleteBoardRequest } from "../../api/boardApi.js";
+import { deleteBoardRequest, voteBoardRequest, cancelVoteRequest } from "../../api/boardApi.js";
 import { createCommentRequest, deleteCommentRequest, updateCommentRequest } from "../../api/commentApi.js";
 
 import PostContent from "./components/PostContent.jsx";
@@ -37,12 +37,12 @@ function BoardDetailPage() {
   const {value: isDeleting, setTrue: startDeleting, setFalse: finishDeleting} = useBooleanState(false);
 
   useEffect(() => {
-    document.title = "게시글 상세";
+    document.title = "질문 상세";
   }, []);
 
   const handleDeletePost = async () => {
     const confirmed = window.confirm(
-      "게시글을 삭제하시겠습니까?",
+      "질문을 삭제하시겠습니까?",
     );
 
     if (!confirmed) {
@@ -55,7 +55,31 @@ function BoardDetailPage() {
     } catch (error) {
       window.alert(
         error.message ||
-          "게시글 삭제에 실패했습니다.",
+          "질문 삭제에 실패했습니다.",
+      );
+    }
+  };
+
+  const handleVote = async (voteType) => {
+    if (!post) {
+      return;
+    }
+
+    try {
+      if (post.myVoteType === voteType) {
+        await cancelVoteRequest(postId);
+      } else if (post.myVoteType) {
+        await cancelVoteRequest(postId);
+        await voteBoardRequest(postId, voteType);
+      } else {
+        await voteBoardRequest(postId, voteType);
+      }
+
+      await refresh();
+    } catch (error) {
+      window.alert(
+        error.message ||
+          "투표에 실패했습니다.",
       );
     }
   };
@@ -177,10 +201,10 @@ function BoardDetailPage() {
       <main className="detail">
         <section className="detail-container">
           {!isValidPostId && (
-            <p className="detail__error">올바르지 않은 게시글 번호입니다.</p>
+            <p className="detail__error">올바르지 않은 질문 번호입니다.</p>
           )}
           {isLoading && (
-            <p className="detail__loading">게시글을 불러오는 중입니다.</p>
+            <p className="detail__loading">질문을 불러오는 중입니다.</p>
           )}
           {!isLoading &&
             errorMessage && (
@@ -194,6 +218,7 @@ function BoardDetailPage() {
                   post={post}
                   onEdit={() => navigate(getEditPath(postId))}
                   onDelete={handleDeletePost}
+                  onVote={handleVote}
                 />
 
                 <div className="comment-form">

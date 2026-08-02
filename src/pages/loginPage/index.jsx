@@ -88,7 +88,7 @@ function LoginPage() {
       <main className="auth">
         <form className="auth-form" noValidate onSubmit={handleSubmit}>
           <h1 className="auth-form__title">로그인</h1>
-          <p className="auth-form__subtitle">다짐을 이어가볼까요?</p>
+          <p className="auth-form__subtitle">오늘의 면접 질문을 확인해볼까요?</p>
 
           <div className="auth-form__fields">
             <Input

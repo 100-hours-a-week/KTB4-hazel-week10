@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
 import { getBoardsRequest } from "@/api/boardApi.js";
 import PostItem from "./components/PostItem.jsx";
-import { addDeadlines } from "./boardDeadlineUtils.js";
+import CategoryFilter from "@/components/categoryFilter/index.jsx";
 import "./index.css";
 
 const WRITE_PATH = "/boards/write";
+const SELECTED_PATH = "/boards/selected";
 
 function getBoardDetailPath(postId) {
   return `/boards/${postId}`;
@@ -16,28 +17,26 @@ function BoardPage() {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
-  const [currentTime, setCurrentTime] = useState(null);
+  const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    document.title = "게시판";
+    document.title = "면접 질문 게시판";
   }, []);
 
   useEffect(() => {
     let isCancelled = false;
 
-    getBoardsRequest()
+    setIsLoading(true);
+
+    getBoardsRequest(category)
       .then((response) => {
         if (isCancelled) {
           return;
         }
 
-        const loadedAt = Date.now();
-        const receivedPosts = response.data ?? [];
-
-        setCurrentTime(loadedAt);
-        setPosts(addDeadlines(receivedPosts, loadedAt));
+        setPosts(response.data ?? []);
         setErrorMessage("");
       })
       .catch((error) => {
@@ -45,8 +44,8 @@ function BoardPage() {
           return;
         }
 
-        console.error("게시글 목록 조회 실패:", error);
-        setErrorMessage("게시글을 불러오지 못했습니다.");
+        console.error("질문 목록 조회 실패:", error);
+        setErrorMessage("질문을 불러오지 못했습니다.");
       })
       .finally(() => {
         if (!isCancelled) {
@@ -57,17 +56,7 @@ function BoardPage() {
     return () => {
       isCancelled = true;
     };
-  }, []);
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setCurrentTime(Date.now());
-    }, 1000);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, []);
+  }, [category]);
 
   return (
     <>
@@ -75,7 +64,8 @@ function BoardPage() {
 
       <main className="board">
         <div className="title-container">
-          <span className="title">게시판 페이지</span>
+          <span className="title">면접 질문 게시판</span>
+          <span className="subtitle">찬성이 반대보다 많은 질문은 매일 아침 7시, 무작위로 3개씩 선정돼요</span>
         </div>
 
         <div className="button-container">
@@ -84,13 +74,23 @@ function BoardPage() {
             type="button"
             onClick={() => navigate(WRITE_PATH)}
           >
-            게시글 작성
+            질문 등록
+          </button>
+
+          <button
+            className="button button--outline"
+            type="button"
+            onClick={() => navigate(SELECTED_PATH)}
+          >
+            선정된 질문
           </button>
         </div>
 
+        <CategoryFilter value={category} onChange={setCategory} />
+
         <div className="list-container">
           {isLoading && (
-            <p className="board__loading">게시글을 불러오는 중입니다.</p>
+            <p className="board__loading">질문을 불러오는 중입니다.</p>
           )}
 
           {!isLoading && errorMessage && (
@@ -98,7 +98,7 @@ function BoardPage() {
           )}
 
           {!isLoading && !errorMessage && posts.length === 0 && (
-            <p className="board__empty">등록된 게시글이 없습니다.</p>
+            <p className="board__empty">등록된 질문이 없습니다.</p>
           )}
 
           {!isLoading &&
@@ -107,7 +107,6 @@ function BoardPage() {
               <PostItem
                 key={post.id}
                 post={post}
-                currentTime={currentTime}
                 onClick={() => navigate(getBoardDetailPath(post.id))}
               />
             ))}

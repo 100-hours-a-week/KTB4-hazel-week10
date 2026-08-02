@@ -1,5 +1,6 @@
 import { formatDate } from "@/utils/formatDate.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
+import { getCategoryLabel } from "@/utils/categories.js";
 
 function handleImageError(event) {
   event.currentTarget.removeAttribute(
@@ -29,11 +30,15 @@ function PostImages({ images = [] }) {
   );
 }
 
-export default function PostContent({ post, onEdit, onDelete }) {
+export default function PostContent({ post, onEdit, onDelete, onVote }) {
   const profileImageUrl = resolveImageUrl(post.writerProfileImage);
 
   return (
-    <>
+    <div className="detail__card">
+      {post.category && (
+        <span className="detail__category">{getCategoryLabel(post.category)}</span>
+      )}
+
       <h2 className="detail__title">{post.title}</h2>
 
       <div className="detail__meta">
@@ -94,7 +99,23 @@ export default function PostContent({ post, onEdit, onDelete }) {
         </div>
       </div>
 
-      <div className="line" />
-    </>
+      <div className="detail__vote-container">
+        <button
+          type="button"
+          className={`detail__vote-button detail__vote-button--agree ${post.myVoteType === "AGREE" ? "is-active" : ""}`}
+          onClick={() => onVote("AGREE")}
+        >
+          찬성 {post.agreeCount}
+        </button>
+
+        <button
+          type="button"
+          className={`detail__vote-button detail__vote-button--disagree ${post.myVoteType === "DISAGREE" ? "is-active" : ""}`}
+          onClick={() => onVote("DISAGREE")}
+        >
+          반대 {post.disagreeCount}
+        </button>
+      </div>
+    </div>
   );
 }

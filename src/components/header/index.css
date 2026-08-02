@@ -64,6 +64,7 @@
   font-weight: 800;
   color: #021730;
   letter-spacing: -0.02em;
+  cursor: pointer;
 }
 
 .header__profile-button {

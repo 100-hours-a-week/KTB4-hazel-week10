@@ -3,6 +3,7 @@ import { INITIAL_ERRORS } from "./initialState.js";
 export function normalizeEditForm(form) {
   return {
     title: form.title.trim(),
+    category: form.category,
     content: form.content.trim(),
   };
 }
@@ -12,6 +13,11 @@ export function validateEditForm(form) {
 
   if (!form.title) {
     errors.title = "제목을 입력해주세요.";
+    return errors;
+  }
+
+  if (!form.category) {
+    errors.category = "카테고리를 선택해주세요.";
     return errors;
   }
 
@@ -30,6 +36,7 @@ export function createBoardFormData({ form, currentImages, newImages }) {
   const formData = new FormData();
 
   formData.append("title", form.title);
+  formData.append("category", form.category);
   formData.append("text", form.content);
 
   newImages.forEach((image) => {

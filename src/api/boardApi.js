@@ -1,7 +1,17 @@
 import { request } from "./http.js";
 
-export function getBoardsRequest() {
-  return request("/boards", {
+export function getBoardsRequest(category = "") {
+  const query = category ? `?category=${category}` : "";
+
+  return request(`/boards${query}`, {
+    method: "GET",
+  });
+}
+
+export function getSelectedBoardsRequest(page = 0, size = 10, category = "") {
+  const categoryQuery = category ? `&category=${category}` : "";
+
+  return request(`/boards/selected?page=${page}&size=${size}${categoryQuery}`, {
     method: "GET",
   });
 }
@@ -28,6 +38,19 @@ export function createBoardRequest(data) {
 
 export function deleteBoardRequest(boardId) {
   return request(`/boards/${boardId}`, {
+    method: "DELETE",
+  });
+}
+
+export function voteBoardRequest(boardId, voteType) {
+  return request(`/boards/${boardId}/votes`, {
+    method: "POST",
+    body: JSON.stringify({ voteType }),
+  });
+}
+
+export function cancelVoteRequest(boardId) {
+  return request(`/boards/${boardId}/votes`, {
     method: "DELETE",
   });
 }

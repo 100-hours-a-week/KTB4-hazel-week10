@@ -5,6 +5,7 @@ import { createBoardRequest } from "../../api/boardApi.js";
 import useBooleanState from "../../utils/useBooleanState.js";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, hasValidationError, normalizeBoardForm, validateBoardForm } from "./boardWriteUtils.js";
+import CategorySelect from "../../components/categorySelect/index.jsx";
 import "./index.css";
 
 const BOARD_LIST_PATH = "/boards";
@@ -70,11 +71,11 @@ function BoardWritePage() {
 
       navigate(boardId ? `/boards/${boardId}` : BOARD_LIST_PATH);
     } catch (error) {
-      console.error("게시글 작성 실패:", error);
+      console.error("질문 등록 실패:", error);
 
       setErrors((prev) => ({
         ...prev,
-        content: error.message || "게시글 작성에 실패했습니다.",
+        content: error.message || "질문 등록에 실패했습니다.",
       }));
     } finally {
       finishSubmitting();
@@ -86,19 +87,19 @@ function BoardWritePage() {
       <Header type="withBackAndProfile" />
 
       <main className="write">
-        <h2 className="title">게시글 작성</h2>
+        <h2 className="title">질문 등록</h2>
 
         <form className="write-form" onSubmit={handleSubmit} noValidate>
           <div className="form-container">
             <div className="form__item">
-              <label className="form__label" htmlFor="title">제목*</label>
+              <label className="form__label" htmlFor="title">질문*</label>
 
               <input
                 id="title"
                 name="title"
                 className="form__input"
                 type="text"
-                placeholder="제목을 입력해주세요. (최대 26글자)"
+                placeholder="면접 질문을 입력해주세요. (최대 26글자)"
                 maxLength={26}
                 value={form.title}
                 aria-describedby="titleHelper"
@@ -110,13 +111,27 @@ function BoardWritePage() {
             </div>
 
             <div className="form__item">
-              <label className="form__label" htmlFor="content">내용*</label>
+              <label className="form__label" htmlFor="category">카테고리*</label>
+
+              <CategorySelect
+                id="category"
+                name="category"
+                value={form.category}
+                hasError={Boolean(errors.category)}
+                onChange={handleInputChange}
+              />
+
+              <p id="categoryHelper" className="form__helper">{errors.category && `* ${errors.category}`}</p>
+            </div>
+
+            <div className="form__item">
+              <label className="form__label" htmlFor="content">설명*</label>
 
               <textarea
                 id="content"
                 name="content"
                 className="form__textarea"
-                placeholder="내용을 입력해주세요."
+                placeholder="이 질문에 대한 설명이나 답변 가이드를 입력해주세요."
                 value={form.content}
                 aria-describedby="contentHelper"
                 aria-invalid={Boolean(errors.content)}

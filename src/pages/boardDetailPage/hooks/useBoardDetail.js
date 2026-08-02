@@ -37,7 +37,7 @@ export default function useBoardDetail(postId) {
           return;
         }
 
-        console.error("게시글 상세 조회 실패:", error);
+        console.error("질문 상세 조회 실패:", error);
 
         setDetail({
           loadedPostId: postId,
@@ -45,7 +45,7 @@ export default function useBoardDetail(postId) {
           comments: [],
           errorMessage:
             error.message ||
-            "게시글을 불러오지 못했습니다.",
+            "질문을 불러오지 못했습니다.",
         });
       });
 

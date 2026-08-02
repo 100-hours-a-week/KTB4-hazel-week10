@@ -124,7 +124,7 @@ function SignupPage() {
           </h1>
 
           <p className="auth-form__subtitle">
-            계정을 만들고 다짐을 시작해보세요
+            계정을 만들고 면접 준비를 시작해보세요
           </p>
 
           <ProfileImageField

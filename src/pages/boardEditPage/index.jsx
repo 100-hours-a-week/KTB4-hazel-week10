@@ -6,6 +6,7 @@ import useBooleanState from "../../utils/useBooleanState.js";
 import ImagePreviewList from "./components/ImagePreviewList.jsx";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, getImageFileText, hasValidationError, normalizeEditForm, validateEditForm } from "./boardEditUtils.js";
+import CategorySelect from "../../components/categorySelect/index.jsx";
 import "./index.css";
 
 function getBoardDetailPath(postId) {
@@ -33,7 +34,7 @@ function BoardEditPage() {
   const imageFileText = getImageFileText(currentImages, newImages);
 
   useEffect(() => {
-    document.title = "게시글 수정";
+    document.title = "질문 수정";
   }, []);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ function BoardEditPage() {
 
         setForm({
           title: data.title ?? "",
+          category: data.category ?? "",
           content: data.text ?? "",
         });
         setCurrentImages(data.images ?? []);
@@ -64,9 +66,9 @@ function BoardEditPage() {
           return;
         }
 
-        console.error("게시글 조회 실패:", error);
+        console.error("질문 조회 실패:", error);
         setLoadErrorMessage(
-          error.message || "게시글을 불러오지 못했습니다.",
+          error.message || "질문을 불러오지 못했습니다.",
         );
         setLoadedPostId(postId);
       });
@@ -139,8 +141,8 @@ function BoardEditPage() {
       await updateBoardRequest(postId, formData);
       navigate(getBoardDetailPath(postId));
     } catch (error) {
-      console.error("게시글 수정 실패:", error);
-      window.alert(error.message || "게시글 수정에 실패했습니다.");
+      console.error("질문 수정 실패:", error);
+      window.alert(error.message || "질문 수정에 실패했습니다.");
     } finally {
       finishSubmitting();
     }
@@ -151,14 +153,14 @@ function BoardEditPage() {
       <Header type="withBackAndProfile" />
 
       <main className="edit">
-        <h2 className="title">게시글 수정</h2>
+        <h2 className="title">질문 수정</h2>
 
         {!isValidPostId && (
-          <p className="edit__error">올바르지 않은 게시글 번호입니다.</p>
+          <p className="edit__error">올바르지 않은 질문 번호입니다.</p>
         )}
 
         {isLoading && (
-          <p className="edit__loading">게시글을 불러오는 중입니다.</p>
+          <p className="edit__loading">질문을 불러오는 중입니다.</p>
         )}
 
         {!isLoading && loadErrorMessage && (
@@ -169,7 +171,7 @@ function BoardEditPage() {
           <form className="edit-form" onSubmit={handleSubmit} noValidate>
             <div className="form-container">
               <div className="form__item">
-                <label className="form__label" htmlFor="title">제목*</label>
+                <label className="form__label" htmlFor="title">질문*</label>
 
                 <input
                   id="title"
@@ -187,7 +189,21 @@ function BoardEditPage() {
               </div>
 
               <div className="form__item">
-                <label className="form__label" htmlFor="content">내용*</label>
+                <label className="form__label" htmlFor="category">카테고리*</label>
+
+                <CategorySelect
+                  id="category"
+                  name="category"
+                  value={form.category}
+                  hasError={Boolean(errors.category)}
+                  onChange={handleInputChange}
+                />
+
+                <p id="categoryHelper" className="form__helper">{errors.category && `* ${errors.category}`}</p>
+              </div>
+
+              <div className="form__item">
+                <label className="form__label" htmlFor="content">설명*</label>
 
                 <textarea
                   id="content"

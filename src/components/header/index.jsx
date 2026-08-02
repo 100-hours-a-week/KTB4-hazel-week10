@@ -63,6 +63,10 @@ function Header({ type = "default" }) {
     navigate(-1);
   };
 
+  const handleTitleClick = () => {
+    navigate("/boards");
+  };
+
   const handleProfileEditClick = () => {
     setIsDropdownOpen(false);
     navigate("/users/edit");
@@ -71,6 +75,11 @@ function Header({ type = "default" }) {
   const handlePasswordEditClick = () => {
     setIsDropdownOpen(false);
     navigate("/users/password");
+  };
+
+  const handleNotificationSettingsClick = () => {
+    setIsDropdownOpen(false);
+    navigate("/users/notifications");
   };
 
   const handleLogoutClick = async () => {
@@ -119,7 +128,20 @@ function Header({ type = "default" }) {
           <div className="header__left-space" />
         ) : null}
 
-        <h1 className="header__title">작심삼일</h1>
+        <h1
+          className="header__title"
+          role="link"
+          tabIndex={0}
+          onClick={handleTitleClick}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              handleTitleClick();
+            }
+          }}
+        >
+          작심삼일
+        </h1>
 
         {hasProfile ? (
           <div className="header__profile-wrapper">
@@ -157,6 +179,14 @@ function Header({ type = "default" }) {
                 onClick={handlePasswordEditClick}
               >
                 비밀번호수정
+              </button>
+
+              <button
+                className="header__dropdown-item header__menu-notification-settings"
+                type="button"
+                onClick={handleNotificationSettingsClick}
+              >
+                알림 설정
               </button>
 
               <button

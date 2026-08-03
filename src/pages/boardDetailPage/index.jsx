@@ -68,10 +68,8 @@ function BoardDetailPage() {
     try {
       if (post.myVoteType === voteType) {
         await cancelVoteRequest(postId);
-      } else if (post.myVoteType) {
-        await cancelVoteRequest(postId);
-        await voteBoardRequest(postId, voteType);
       } else {
+        // 찬성 <-> 반대 변경도 서버가 한 번에 처리한다.
         await voteBoardRequest(postId, voteType);
       }
 
@@ -81,6 +79,9 @@ function BoardDetailPage() {
         error.message ||
           "투표에 실패했습니다.",
       );
+
+      // 실패 지점에 따라 서버 상태를 알 수 없으므로 다시 불러와 맞춘다.
+      await refresh().catch(() => {});
     }
   };
 

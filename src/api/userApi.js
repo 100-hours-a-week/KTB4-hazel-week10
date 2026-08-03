@@ -45,9 +45,9 @@ export function getDiscordAuthorizeUrlRequest() {
   });
 }
 
-export function connectDiscordAccountRequest(code) {
+export function connectDiscordAccountRequest(code, state) {
   return request("/users/me/discord/connect", {
     method: "POST",
-    body: JSON.stringify({ code }),
+    body: JSON.stringify({ code, state }),
   });
 }

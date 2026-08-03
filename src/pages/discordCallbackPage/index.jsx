@@ -19,10 +19,11 @@ function DiscordCallbackPage() {
 
   useEffect(() => {
     const code = searchParams.get("code");
+    const state = searchParams.get("state");
 
-    if (!code) {
+    if (!code || !state) {
       setStatus("error");
-      setErrorMessage("디스코드 인증 코드가 없습니다.");
+      setErrorMessage("디스코드 인증 정보가 올바르지 않습니다.");
       return;
     }
 
@@ -34,7 +35,7 @@ function DiscordCallbackPage() {
 
     const isPopup = Boolean(window.opener);
 
-    connectDiscordAccountRequest(code)
+    connectDiscordAccountRequest(code, state)
       .then(() => {
         setStatus("success");
 

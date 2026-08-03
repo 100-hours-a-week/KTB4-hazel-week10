@@ -9,9 +9,9 @@ function getComments(response) {
   );
 }
 
-export async function fetchBoardDetail(postId) {
+export async function fetchBoardDetail(postId, countView = true) {
   const [postResponse, commentResponse] = await Promise.all([
-    getBoardDetailRequest(postId),
+    getBoardDetailRequest(postId, countView),
     getCommentsRequest(postId),
   ]);
 

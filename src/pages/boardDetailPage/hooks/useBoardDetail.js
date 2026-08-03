@@ -54,8 +54,9 @@ export default function useBoardDetail(postId) {
     };
   }, [postId, isValidPostId]);
 
+  // 갱신은 새 조회가 아니므로 조회수를 올리지 않는다.
   const refresh = async () => {
-    const data = await fetchBoardDetail(postId);
+    const data = await fetchBoardDetail(postId, false);
 
     setDetail({
       loadedPostId: postId,

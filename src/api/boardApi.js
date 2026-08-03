@@ -16,8 +16,8 @@ export function getSelectedBoardsRequest(page = 0, size = 10, category = "") {
   });
 }
 
-export function getBoardDetailRequest(boardId) {
-  return request(`/boards/${boardId}`, {
+export function getBoardDetailRequest(boardId, countView = true) {
+  return request(`/boards/${boardId}?countView=${countView}`, {
     method: "GET",
   });
 }

@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
+import Modal from "@/components/modal/index.jsx";
 import { getBoardsRequest } from "@/api/boardApi.js";
+import { getNotificationSettingsRequest } from "@/api/userApi.js";
 import PostItem from "./components/PostItem.jsx";
 import CategoryFilter from "@/components/categoryFilter/index.jsx";
 import "./index.css";
 
 const WRITE_PATH = "/boards/write";
 const SELECTED_PATH = "/boards/selected";
+const NOTIFICATION_SETTINGS_PATH = "/users/notifications";
 
 function getBoardDetailPath(postId) {
   return `/boards/${postId}`;
+}
+
+// 디스코드 연동 안내는 계정당 한 번만 노출한다.
+function getDiscordPromptKey() {
+  const userId = localStorage.getItem("userId");
+
+  return userId ? `discordPromptSeen:${userId}` : null;
 }
 
 function BoardPage() {
@@ -22,9 +32,37 @@ function BoardPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isDiscordPromptOpen, setIsDiscordPromptOpen] = useState(false);
 
   useEffect(() => {
     document.title = "면접 질문 게시판";
+  }, []);
+
+  useEffect(() => {
+    const promptKey = getDiscordPromptKey();
+
+    if (!promptKey || localStorage.getItem(promptKey)) {
+      return;
+    }
+
+    let isCancelled = false;
+
+    getNotificationSettingsRequest()
+      .then(({ data }) => {
+        if (isCancelled || data.discordUserId) {
+          return;
+        }
+
+        localStorage.setItem(promptKey, "true");
+        setIsDiscordPromptOpen(true);
+      })
+      .catch((error) => {
+        console.error("알림 설정 조회 실패:", error);
+      });
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   const handleCategoryChange = (nextCategory) => {
@@ -144,6 +182,17 @@ function BoardPage() {
           </div>
         )}
       </main>
+
+      <Modal
+        id="discord-prompt-modal"
+        isOpen={isDiscordPromptOpen}
+        title="디스코드로 면접 질문 받아보기"
+        description="매일 아침 7시, 선정된 면접 질문을 디스코드로 보내드려요. 지금 알림을 설정해보세요."
+        cancelText="나중에"
+        confirmText="설정하러 가기"
+        onCancel={() => setIsDiscordPromptOpen(false)}
+        onConfirm={() => navigate(NOTIFICATION_SETTINGS_PATH)}
+      />
     </>
   );
 }

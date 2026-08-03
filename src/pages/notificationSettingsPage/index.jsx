@@ -81,11 +81,6 @@ function NotificationSettingsPage() {
     clearSaved();
   };
 
-  const handleDiscordUserIdChange = ({ target: { value } }) => {
-    setDiscordUserId(value);
-    clearSaved();
-  };
-
   const handleConnectDiscord = async () => {
     try {
       const { data } = await getDiscordAuthorizeUrlRequest();
@@ -135,10 +130,7 @@ function NotificationSettingsPage() {
     try {
       startSubmitting();
 
-      await updateNotificationSettingsRequest({
-        discordUserId: discordUserId.trim(),
-        categories,
-      });
+      await updateNotificationSettingsRequest({ categories });
 
       setErrorMessage("");
       markSaved();
@@ -173,9 +165,7 @@ function NotificationSettingsPage() {
             </p>
 
             <div className="notification-settings__field">
-              <label className="notification-settings__label" htmlFor="discordUserId">
-                디스코드 계정
-              </label>
+              <span className="notification-settings__label">디스코드 계정</span>
 
               <div className="notification-settings__discord-connect">
                 <span className="notification-settings__discord-status">
@@ -190,15 +180,6 @@ function NotificationSettingsPage() {
                   {discordUserId ? "다시 연결하기" : "디스코드로 연결하기"}
                 </button>
               </div>
-
-              <input
-                id="discordUserId"
-                className="notification-settings__input"
-                type="text"
-                placeholder="또는 디스코드 사용자 ID를 직접 입력하세요"
-                value={discordUserId}
-                onChange={handleDiscordUserIdChange}
-              />
             </div>
 
             <div className="notification-settings__field">

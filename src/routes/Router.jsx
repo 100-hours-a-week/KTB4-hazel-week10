@@ -1,10 +1,11 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-const LoginPage = lazy(() => import("@/pages/loginPage/index.jsx"));
+import BoardPage from "@/pages/boardPage/index.jsx";
+import LoginPage from "@/pages/loginPage/index.jsx";
+
 const SignupPage = lazy(() => import("@/pages/signupPage/index.jsx"));
 
-const BoardPage = lazy(() => import("@/pages/boardPage/index.jsx"));
 const BoardWritePage = lazy(() => import("@/pages/postWritePage/index.jsx"));
 const BoardDetailPage = lazy(() => import("@/pages/boardDetailPage/index.jsx"));
 const BoardEditPage = lazy(() => import("@/pages/boardEditPage/index.jsx"));
@@ -18,6 +19,8 @@ const DiscordCallbackPage = lazy(() => import("@/pages/discordCallbackPage/index
 export default function Router() {
   return (
     <BrowserRouter>
+      {/* 청크를 받는 동안 스피너를 끼워 넣으면 레이아웃이 밀려 CLS가 나빠지므로
+          아무것도 그리지 않는다. */}
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />

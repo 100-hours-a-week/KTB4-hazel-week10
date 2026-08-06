@@ -1,9 +1,6 @@
 import { INITIAL_ERRORS } from "./initialState.js";
 
-import {
-  isValidEmail,
-  isValidPassword,
-} from "../../utils/validation/validators.js";
+import { isValidEmail, isValidPassword } from "../../utils/validation/validators.js";
 
 export function normalizeSignupForm(form) {
   return {

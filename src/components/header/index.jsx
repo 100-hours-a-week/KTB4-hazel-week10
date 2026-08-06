@@ -157,6 +157,7 @@ function Header({ type = "default" }) {
                 className="header__profile-image"
                 src={profileImageUrl || undefined}
                 alt=""
+                decoding="async"
                 onError={() => setProfileImageUrl("")}
               />
             </button>

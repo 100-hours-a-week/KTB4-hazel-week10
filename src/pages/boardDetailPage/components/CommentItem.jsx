@@ -16,6 +16,8 @@ function CommentItem({ comment, onEdit, onDelete }) {
         className="profile__image"
         src={profileImageUrl || undefined}
         alt=""
+        loading="lazy"
+        decoding="async"
         onError={handleImageError}
       />
 

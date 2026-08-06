@@ -23,6 +23,7 @@ function UserEditForm({
             className="profile-field__image"
             src={profileImageUrl}
             alt="프로필 사진"
+            decoding="async"
             onError={handleImageError}
           />
           <span className="profile-field__overlay">변경</span>

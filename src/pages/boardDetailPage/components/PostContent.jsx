@@ -22,6 +22,8 @@ function PostImages({ images = [] }) {
             className="detail__image"
             src={resolveImageUrl(imageUrl) || undefined}
             alt={`게시글 이미지 ${index + 1}`}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
             onError={handleImageError}
           />
         ),
@@ -48,6 +50,7 @@ export default function PostContent({ post, onEdit, onDelete, onVote }) {
               className="profile__image"
               src={profileImageUrl || undefined}
               alt=""
+              decoding="async"
               onError={handleImageError}
             />
 

@@ -6,7 +6,9 @@ function handleImageError(event) {
   event.currentTarget.removeAttribute("src");
 }
 
-function PostItem({ post, onClick }) {
+const EAGER_IMAGE_COUNT = 4;
+
+function PostItem({ post, onClick, index = 0 }) {
   const { title, category, likeCount, agreeCount, disagreeCount, commentCount, viewCount, createdAt, writer, writerProfileImage } = post;
 
   const profileImageUrl = resolveImageUrl(writerProfileImage);
@@ -71,6 +73,8 @@ function PostItem({ post, onClick }) {
           className="profile__image"
           src={profileImageUrl || undefined}
           alt=""
+          loading={index < EAGER_IMAGE_COUNT ? "eager" : "lazy"}
+          decoding="async"
           onError={handleImageError}
         />
         <div className="profile__name">{writer}</div>

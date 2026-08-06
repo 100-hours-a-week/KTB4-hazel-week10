@@ -149,10 +149,11 @@ function BoardPage() {
 
           {!isLoading &&
             !errorMessage &&
-            posts.map((post) => (
+            posts.map((post, index) => (
               <PostItem
                 key={post.id}
                 post={post}
+                index={index}
                 onClick={() => navigate(getBoardDetailPath(post.id))}
               />
             ))}

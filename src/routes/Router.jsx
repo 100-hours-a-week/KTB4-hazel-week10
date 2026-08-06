@@ -19,8 +19,6 @@ const DiscordCallbackPage = lazy(() => import("@/pages/discordCallbackPage/index
 export default function Router() {
   return (
     <BrowserRouter>
-      {/* 청크를 받는 동안 스피너를 끼워 넣으면 레이아웃이 밀려 CLS가 나빠지므로
-          아무것도 그리지 않는다. */}
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />

@@ -1,4 +1,4 @@
-/* @vitest-environment jsdom */
+
 
 import { BASE_URL, request } from "./http.js";
 

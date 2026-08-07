@@ -64,7 +64,7 @@ export async function request(path, options = {}, isRetry = false) {
       await refreshAccessToken();
     } catch (error) {
       goToLogin();
-      throw new Error("세션이 만료되었습니다.");
+      throw new Error("세션이 만료되었습니다.", { cause: error });
     }
 
     return request(path, options, true);

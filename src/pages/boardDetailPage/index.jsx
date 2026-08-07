@@ -33,6 +33,7 @@ function BoardDetailPage() {
   const { post, comments, errorMessage, isLoading, isValidPostId, refresh } = useBoardDetail(postId);
   const [ commentContent, setCommentContent ] = useState("");
   const [ selectedCommentId, setSelectedCommentId ] = useState(null);
+  const [ isPostDeleteModalOpen, setIsPostDeleteModalOpen ] = useState(false);
   const {value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting} = useBooleanState(false);
   const {value: isDeleting, setTrue: startDeleting, setFalse: finishDeleting} = useBooleanState(false);
 
@@ -40,23 +41,31 @@ function BoardDetailPage() {
     document.title = "질문 상세";
   }, []);
 
-  const handleDeletePost = async () => {
-    const confirmed = window.confirm(
-      "질문을 삭제하시겠습니까?",
-    );
+  const handleDeletePost = () => {
+    if (isDeleting) {
+      return;
+    }
 
-    if (!confirmed) {
+    setIsPostDeleteModalOpen(true);
+  };
+
+  const handleConfirmDeletePost = async () => {
+    if (isDeleting) {
       return;
     }
 
     try {
+      startDeleting();
       await deleteBoardRequest(postId);
+      setIsPostDeleteModalOpen(false);
       navigate(BOARD_LIST_PATH);
     } catch (error) {
       window.alert(
         error.message ||
           "질문 삭제에 실패했습니다.",
       );
+    } finally {
+      finishDeleting();
     }
   };
 
@@ -197,6 +206,17 @@ function BoardDetailPage() {
         confirmText={ isDeleting ? "삭제 중..." : "확인" }
         onCancel={() => { if (!isDeleting) setSelectedCommentId(null) }}
         onConfirm={ handleDeleteComment }
+      />
+
+      <Modal
+        id="deletePostModal"
+        isOpen={ isPostDeleteModalOpen }
+        title="질문을 삭제하시겠습니까?"
+        description="삭제한 내용은 복구할 수 없습니다."
+        cancelText="취소"
+        confirmText={ isDeleting ? "삭제 중..." : "확인" }
+        onCancel={() => { if (!isDeleting) setIsPostDeleteModalOpen(false) }}
+        onConfirm={ handleConfirmDeletePost }
       />
 
       <main className="detail">

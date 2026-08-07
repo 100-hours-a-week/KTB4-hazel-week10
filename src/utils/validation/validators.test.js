@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { isValidEmail, isValidPassword } from "./validators";
 
 describe("isValidEmail", () => {

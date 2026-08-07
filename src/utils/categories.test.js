@@ -1,5 +1,3 @@
-import { describe, expect, it } from "vitest";
-
 import { getCategoryLabel } from "./categories.js";
 
 describe("getCategoryLabel", () => {

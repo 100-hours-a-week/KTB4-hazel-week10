@@ -1,5 +1,3 @@
-import { describe, expect, it } from "vitest";
-
 import { formatDate } from "./formatDate.js";
 
 describe("formatDate", () => {

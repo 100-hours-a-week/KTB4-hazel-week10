@@ -1,5 +1,3 @@
-import { afterAll, describe, expect, it, vi } from "vitest";
-
 const TEST_BASE_URL = "https://test-api.example.com";
 
 vi.stubEnv("VITE_API_BASE_URL", TEST_BASE_URL);

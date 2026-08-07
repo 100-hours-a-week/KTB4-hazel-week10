@@ -1,6 +1,6 @@
-import { act, renderHook } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+/* @vitest-environment jsdom */
 
+import { act, renderHook } from "@testing-library/react";
 import useBooleanState from "./useBooleanState.js";
 
 describe("useBooleanState", () => {

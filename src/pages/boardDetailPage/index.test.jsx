@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import "@testing-library/jest-dom/vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 
@@ -26,6 +26,7 @@ vi.mock("./hooks/useBoardDetail.js", () => ({
 }));
 
 import { deleteBoardRequest } from "../../api/boardApi.js";
+import { updateCommentRequest } from "../../api/commentApi.js";
 import { getMyInfoRequest } from "../../api/userApi.js";
 import useBoardDetail from "./hooks/useBoardDetail.js";
 import BoardDetailPage from "./index.jsx";
@@ -112,5 +113,51 @@ describe("BoardDetailPage", () => {
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(deleteBoardRequest).not.toHaveBeenCalled();
+  });
+
+  it("댓글 수정 내용을 PATCH 요청으로 저장하고 편집 모드를 종료한다", async () => {
+    const user = userEvent.setup();
+    const refresh = vi.fn().mockResolvedValue(undefined);
+    const comment = {
+      id: 7,
+      writer: "hazel",
+      content: "기존 댓글입니다.",
+      createdAt: "2026-08-07T12:30:45.123Z",
+      writerProfileImage: "",
+      isOwner: true,
+    };
+
+    useBoardDetail.mockReturnValue({
+      post,
+      comments: [comment],
+      errorMessage: "",
+      isLoading: false,
+      isValidPostId: true,
+      refresh,
+    });
+    updateCommentRequest.mockResolvedValue(undefined);
+
+    renderBoardDetailPage();
+
+    const commentItem = screen
+      .getByText(comment.content)
+      .closest(".comment-item");
+
+    await user.click(within(commentItem).getByRole("button", { name: "수정" }));
+    const textarea = within(commentItem).getByRole("textbox", { name: "댓글 수정" });
+    await user.clear(textarea);
+    await user.type(textarea, "수정된 댓글입니다.");
+    await user.click(screen.getByRole("button", { name: "저장" }));
+
+    await waitFor(() => {
+      expect(updateCommentRequest).toHaveBeenCalledWith(
+        42,
+        7,
+        { content: "수정된 댓글입니다." },
+      );
+      expect(refresh).toHaveBeenCalled();
+    });
+
+    expect(screen.queryByRole("textbox", { name: "댓글 수정" })).not.toBeInTheDocument();
   });
 });

@@ -129,25 +129,7 @@ function BoardDetailPage() {
   };
 
   const handleEditComment =
-    async (comment) => {
-      const input = window.prompt(
-        "댓글을 수정해주세요.",
-        comment.content,
-      );
-
-      if (input === null) {
-        return;
-      }
-
-      const content = input.trim();
-
-      if (!content) {
-        window.alert(
-          "댓글 내용을 입력해주세요.",
-        );
-        return;
-      }
-
+    async (comment, content) => {
       try {
         await updateCommentRequest(
           postId,
@@ -161,6 +143,8 @@ function BoardDetailPage() {
           error.message ||
             "댓글 수정에 실패했습니다.",
         );
+
+        throw error;
       }
     };
 

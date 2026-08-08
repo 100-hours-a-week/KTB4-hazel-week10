@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
+import Modal from "@/components/modal/index.jsx";
 import { deleteMyAccountRequest, getMyInfoRequest, updateMyInfoRequest } from "@/api/userApi.js";
 import useBooleanState from "@/utils/useBooleanState.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
@@ -20,6 +21,7 @@ function UserEditPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   const {
     value: isSubmitting,
@@ -160,14 +162,16 @@ function UserEditPage() {
     }
   };
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = () => {
     if (isWithdrawing) {
       return;
     }
 
-    const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
+    setIsWithdrawModalOpen(true);
+  };
 
-    if (!isConfirmed) {
+  const handleConfirmWithdraw = async () => {
+    if (isWithdrawing) {
       return;
     }
 
@@ -175,6 +179,7 @@ function UserEditPage() {
       startWithdrawing();
 
       await deleteMyAccountRequest();
+      setIsWithdrawModalOpen(false);
       clearAuthData();
       navigate("/login", { replace: true });
     } catch (error) {
@@ -188,6 +193,21 @@ function UserEditPage() {
   return (
     <>
       <Header type="withProfile" />
+
+      <Modal
+        id="withdrawModal"
+        isOpen={isWithdrawModalOpen}
+        title="회원 탈퇴하시겠습니까?"
+        description="탈퇴한 계정은 복구할 수 없습니다."
+        cancelText="취소"
+        confirmText={isWithdrawing ? "탈퇴 처리 중..." : "확인"}
+        onCancel={() => {
+          if (!isWithdrawing) {
+            setIsWithdrawModalOpen(false);
+          }
+        }}
+        onConfirm={handleConfirmWithdraw}
+      />
 
       <main className="user-edit">
         <h2 className="title">회원정보수정</h2>

@@ -122,6 +122,10 @@
 | --- |
 | <img src="./docs/screens/discord.png" width="450" alt="Discord 연동 및 알림 설정" /> |
 
+### 🎬 서비스 동영상
+
+[전체 서비스 화면 녹화 보기](./docs/videos/service-overview.webm)
+
 ### 🔄 서비스 흐름
 
 ```text

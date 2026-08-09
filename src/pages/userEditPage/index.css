@@ -6,7 +6,7 @@
 }
 
 .title {
-  margin-bottom: 24px;
+  margin: 0 0 24px;
   font-size: 20px;
   font-weight: 700;
   color: var(--text-strong);
@@ -109,6 +109,7 @@
 }
 
 .form__text {
+  margin: 0;
   font-size: 14px;
   color: var(--text-muted);
 }
@@ -135,7 +136,7 @@
 
 .form__helper {
   min-height: 16px;
-  margin-top: 6px;
+  margin: 6px 0 0;
   color: #fa777c;
   font-size: 12px;
   font-style: italic;

@@ -41,7 +41,7 @@
 
 .input-field__helper {
   min-height: 16px;
-  margin-top: 6px;
+  margin: 6px 0 0;
   color: #fa777c;
   font-size: 12px;
   font-style: italic;

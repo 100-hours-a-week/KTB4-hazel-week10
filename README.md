@@ -124,7 +124,10 @@
 
 ### 🎬 서비스 동영상
 
-[전체 서비스 화면 녹화 보기](./docs/videos/service-overview.webm)
+<video width="700" autoplay loop muted playsinline controls>
+  <source src="./docs/videos/service-overview.webm" type="video/webm" />
+  <a href="./docs/videos/service-overview.webm">전체 서비스 화면 녹화 보기</a>
+</video>
 
 ### 🔄 서비스 흐름
 

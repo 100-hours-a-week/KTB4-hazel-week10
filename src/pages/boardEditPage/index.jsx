@@ -163,7 +163,8 @@ function BoardEditPage() {
         {isLoading && (
           <div className="edit-form">
             <FormSkeleton
-              fieldHeights={[44, 44, 260]}
+              fieldHeights={[66, 66, 282, 40]}
+              gap={21}
               label="질문을 불러오는 중입니다."
             />
           </div>

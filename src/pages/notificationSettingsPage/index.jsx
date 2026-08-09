@@ -154,7 +154,9 @@ function NotificationSettingsPage() {
         {!isLoaded && (
           <div className="notification-settings-form">
             <FormSkeleton
-              fieldHeights={[58, 42]}
+              hasDescription
+              fieldHeights={[66, 42]}
+              gap={24}
               label="알림 설정을 불러오는 중입니다."
             />
           </div>

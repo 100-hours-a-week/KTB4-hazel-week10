@@ -22,7 +22,7 @@ function UserEditPreview() {
       />
 
       <div className="user-edit-form">
-        <FormSkeleton hasAvatar fieldHeights={[20, 44]} label="회원정보를 불러오는 중입니다." />
+        <FormSkeleton hasAvatar fieldHeights={[17.5, 66]} label="회원정보를 불러오는 중입니다." />
       </div>
     </main>
   );

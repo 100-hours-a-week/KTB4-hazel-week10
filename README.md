@@ -90,37 +90,37 @@
 
 | 로그인 | 회원가입 |
 | --- | --- |
-| <img src="docs/screens/로그인.png" width="300" alt="로그인" /> | <img src="docs/screens/회원가입.png" width="300" alt="회원가입" /> |
+| <img src="./docs/screens/%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.png" width="300" alt="로그인" /> | <img src="./docs/screens/%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8.png" width="300" alt="회원가입" /> |
 
 `게시글 목록`
 
 | 전체 게시글 | 선정된 게시글 |
 | --- | --- |
-| <img src="docs/screens/면접 질문 게시판1.png" width="300" alt="전체 게시글" /> | <img src="docs/screens/선정된 면접 질문 게시판.png" width="300" alt="선정된 게시글" /> |
+| <img src="./docs/screens/%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%86%E1%85%AE%E1%86%AF%20%E1%84%85%E1%85%B5%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3.png" width="300" alt="전체 게시글" /> | <img src="./docs/screens/%E1%84%89%E1%85%A5%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%83%E1%85%AC%E1%86%AB%20%E1%84%86%E1%85%A7%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%B8%20%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%86%E1%85%AE%E1%86%AB.png" width="300" alt="선정된 게시글" /> |
 
-`게시글 작성 / 상세 / 수정 / 삭제`
+`게시글 상세 / 수정 / 삭제`
 
-| 게시글 작성 | 게시글 상세 | 게시글 수정 | 게시글 삭제 |
-| --- | --- | --- | --- |
-| <img src="docs/screens/질문 등록 페이지.png" width="220" alt="게시글 작성" /> | <img src="docs/screens/게시판 상세 페이지.png" width="220" alt="게시글 상세" /> | <img src="docs/screens/게시글 수정 페이지.png" width="220" alt="게시글 수정" /> | <img src="docs/screens/게시글 삭제 문구.png" width="220" alt="게시글 삭제" /> |
+| 게시글 상세 | 게시글 수정 | 게시글 삭제 |
+| --- | --- | --- |
+| <img src="./docs/screens/%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%86%E1%85%AE%E1%86%AF%20%E1%84%8C%E1%85%A1%E1%84%89%E1%85%A6%E1%84%92%E1%85%B5%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.png" width="220" alt="게시글 상세" /> | <img src="./docs/screens/%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%86%E1%85%AE%E1%86%AF%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC.png" width="220" alt="게시글 수정" /> | <img src="./docs/screens/%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%86%E1%85%AE%E1%86%AF%20%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6.png" width="220" alt="게시글 삭제" /> |
 
-`댓글 목록 / 등록 / 삭제`
+`댓글 목록 / 수정 / 삭제`
 
-| 댓글 목록 및 등록 | 댓글 삭제 |
-| --- | --- |
-| <img src="docs/screens/게시판 상세 페이지.png" width="300" alt="댓글 목록 및 등록" /> | <img src="docs/screens/댓글 삭제 문구.png" width="300" alt="댓글 삭제" /> |
+| 댓글 목록 | 댓글 수정 | 댓글 삭제 |
+| --- | --- | --- |
+| <img src="./docs/screens/%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%86%E1%85%AE%E1%86%AF%20%E1%84%8C%E1%85%A1%E1%84%89%E1%85%A6%E1%84%92%E1%85%B5%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.png" width="220" alt="댓글 목록" /> | <img src="./docs/screens/%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC.png" width="220" alt="댓글 수정" /> | <img src="./docs/screens/%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF%20%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6.png" width="220" alt="댓글 삭제" /> |
 
 `회원정보 / 비밀번호 / 탈퇴`
 
 | 회원정보 수정 | 비밀번호 수정 | 회원 탈퇴 |
 | --- | --- | --- |
-| <img src="docs/screens/내정보 페이지.png" width="250" alt="회원정보 수정" /> | <img src="docs/screens/비밀번호 수정 페이지.png" width="250" alt="비밀번호 수정" /> | <img src="docs/screens/회원 탈퇴 모달.png" width="250" alt="회원 탈퇴" /> |
+| <img src="./docs/screens/%E1%84%82%E1%85%A2%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9.png" width="250" alt="회원정보 수정" /> | <img src="./docs/screens/%E1%84%87%E1%85%B5%E1%84%86%E1%85%B5%E1%86%AF%E1%84%87%E1%85%A5%E1%86%AB%E1%84%92%E1%85%A9%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC.png" width="250" alt="비밀번호 수정" /> | <img src="./docs/screens/%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%90%E1%85%A1%E1%86%AF%E1%84%90%E1%85%AC.png" width="250" alt="회원 탈퇴" /> |
 
 `알림 설정`
 
 | Discord 연동 및 알림 설정 |
 | --- |
-| <img src="docs/screens/디스코드 연결 페이지.png" width="450" alt="Discord 연동 및 알림 설정" /> |
+| <img src="./docs/screens/%E1%84%83%E1%85%B5%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A9%E1%84%83%E1%85%B3%20%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC.png" width="450" alt="Discord 연동 및 알림 설정" /> |
 
 ### 🔄 서비스 흐름
 

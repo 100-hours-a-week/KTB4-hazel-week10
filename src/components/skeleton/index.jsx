@@ -37,13 +37,14 @@ export function SkeletonText({ width, lineHeight, barHeight = 12, className = ""
 /**
  * 스켈레톤 묶음을 감싸 로딩 상태를 한 번만 안내한다.
  */
-export function SkeletonGroup({ label, className = "", children }) {
+export function SkeletonGroup({ label, className = "", style, children }) {
   return (
     <div
       className={`skeleton-group ${className}`.trim()}
       role="status"
       aria-busy="true"
       aria-label={label}
+      style={style}
     >
       {children}
     </div>

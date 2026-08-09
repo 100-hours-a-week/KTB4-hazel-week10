@@ -41,11 +41,33 @@
 }
 
 .form-skeleton {
-  gap: 20px;
+  gap: 16px;
+}
+
+/* 실제 폼 라벨과 같은 글자 크기라야 라벨 줄 높이가 일치한다. */
+.form-skeleton .skeleton-text {
+  font-size: 12px;
+}
+
+.form-skeleton__avatar-field,
+.form-skeleton__description {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 실제 안내 문구와 같은 줄 높이(14px · 1.5) */
+.form-skeleton__description .skeleton-text {
+  height: 21px;
+  font-size: 14px;
+}
+
+.form-skeleton__avatar-label {
+  justify-content: center;
+  margin-bottom: 16px;
 }
 
 .form-skeleton__avatar {
-  margin: 0 auto 8px;
+  margin: 0 auto;
 }
 
 .form-skeleton__field {

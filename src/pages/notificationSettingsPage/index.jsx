@@ -3,6 +3,7 @@ import Header from "@/components/header/index.jsx";
 import { getDiscordAuthorizeUrlRequest, getNotificationSettingsRequest, updateNotificationSettingsRequest } from "@/api/userApi.js";
 import useBooleanState from "@/utils/useBooleanState.js";
 import { CATEGORIES } from "@/utils/categories.js";
+import FormSkeleton from "@/components/skeleton/FormSkeleton.jsx";
 import "./index.css";
 
 function NotificationSettingsPage() {
@@ -151,7 +152,12 @@ function NotificationSettingsPage() {
         <h2 className="title">알림 설정</h2>
 
         {!isLoaded && (
-          <p className="notification-settings__loading">알림 설정을 불러오는 중입니다.</p>
+          <div className="notification-settings-form">
+            <FormSkeleton
+              fieldHeights={[58, 42]}
+              label="알림 설정을 불러오는 중입니다."
+            />
+          </div>
         )}
 
         {isLoaded && loadErrorMessage && (

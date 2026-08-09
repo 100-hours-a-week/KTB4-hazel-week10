@@ -1,0 +1,76 @@
+/* 디스코드 로딩 플레이스홀더: 은은하게 훑고 지나가는 shimmer */
+.skeleton {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  height: 12px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-elevated);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton--circle {
+  border-radius: 50%;
+}
+
+/*
+ * 텍스트 한 줄과 같은 높이를 차지하는 자리표시자.
+ * 실제 텍스트 클래스를 함께 주면 그 글자 크기의 줄 높이(1lh)를 그대로 따른다.
+ */
+.skeleton-text {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 1lh;
+}
+
+.skeleton-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-skeleton {
+  gap: 20px;
+}
+
+.form-skeleton__avatar {
+  margin: 0 auto 8px;
+}
+
+.form-skeleton__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-skeleton__button {
+  margin-top: 4px;
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    background-image: none;
+    animation: none;
+  }
+}

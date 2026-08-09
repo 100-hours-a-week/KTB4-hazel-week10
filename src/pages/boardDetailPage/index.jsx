@@ -10,6 +10,7 @@ import { createCommentRequest, deleteCommentRequest, updateCommentRequest } from
 
 import PostContent from "./components/PostContent.jsx";
 import CommentItem from "./components/CommentItem.jsx";
+import BoardDetailSkeleton from "./components/BoardDetailSkeleton.jsx";
 import useBoardDetail from "./hooks/useBoardDetail.js";
 
 import "./index.css";
@@ -208,9 +209,7 @@ function BoardDetailPage() {
           {!isValidPostId && (
             <p className="detail__error">올바르지 않은 질문 번호입니다.</p>
           )}
-          {isLoading && (
-            <p className="detail__loading">질문을 불러오는 중입니다.</p>
-          )}
+          {isLoading && <BoardDetailSkeleton />}
           {!isLoading &&
             errorMessage && (
               <p className="detail__error">{errorMessage}</p>

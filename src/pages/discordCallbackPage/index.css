@@ -8,26 +8,31 @@
 
 .discord-callback__text {
   font-size: 15px;
-  color: #374151;
+  color: var(--text-muted);
 }
 
 .discord-callback__text--error {
-  color: #ef4444;
+  color: #fa777c;
 }
 
 .discord-callback__text--success {
-  color: #021730;
+  color: var(--green);
   font-weight: 700;
 }
 
 .discord-callback__button {
-  height: 44px;
+  height: 40px;
   padding: 0 20px;
   border: none;
-  border-radius: var(--radius-md);
-  background-color: #021730;
+  border-radius: var(--radius-sm);
+  background-color: var(--brand);
   color: #fff;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.discord-callback__button:hover {
+  background-color: var(--brand-hover);
 }

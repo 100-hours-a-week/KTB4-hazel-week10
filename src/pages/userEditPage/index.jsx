@@ -6,6 +6,7 @@ import { deleteMyAccountRequest, getMyInfoRequest, updateMyInfoRequest } from "@
 import useBooleanState from "@/utils/useBooleanState.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import UserEditForm from "./components/UserEditForm.jsx";
+import FormSkeleton from "@/components/skeleton/FormSkeleton.jsx";
 import { clearAuthData, createUserEditFormData } from "./userEditUtils.js";
 import { INITIAL_USER } from "./initialState.js";
 import "./index.css";
@@ -213,9 +214,13 @@ function UserEditPage() {
         <h2 className="title">회원정보수정</h2>
 
         {!isLoaded && (
-          <p className="user-edit__loading">
-            회원정보를 불러오는 중입니다.
-          </p>
+          <div className="user-edit-form">
+            <FormSkeleton
+              hasAvatar
+              fieldHeights={[20, 44]}
+              label="회원정보를 불러오는 중입니다."
+            />
+          </div>
         )}
 
         {isLoaded && loadErrorMessage && (

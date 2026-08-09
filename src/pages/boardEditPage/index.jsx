@@ -7,6 +7,7 @@ import ImagePreviewList from "./components/ImagePreviewList.jsx";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, getImageFileText, hasValidationError, normalizeEditForm, validateEditForm } from "./boardEditUtils.js";
 import CategorySelect from "../../components/categorySelect/index.jsx";
+import FormSkeleton from "../../components/skeleton/FormSkeleton.jsx";
 import "./index.css";
 
 function getBoardDetailPath(postId) {
@@ -160,7 +161,12 @@ function BoardEditPage() {
         )}
 
         {isLoading && (
-          <p className="edit__loading">질문을 불러오는 중입니다.</p>
+          <div className="edit-form">
+            <FormSkeleton
+              fieldHeights={[44, 44, 260]}
+              label="질문을 불러오는 중입니다."
+            />
+          </div>
         )}
 
         {!isLoading && loadErrorMessage && (

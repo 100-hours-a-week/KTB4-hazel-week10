@@ -2,131 +2,187 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 64px 24px 64px;
+  padding: 48px 24px 64px;
 }
 
 .title {
-  margin-bottom: 32px;
-  font-size: 22px;
-  font-weight: 800;
-  color: #111827;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-strong);
   letter-spacing: -0.01em;
 }
 
+/* 디스코드 "연결" 설정 패널 */
 .notification-settings-form {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 355px;
+  width: 440px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-panel);
+  box-shadow: var(--shadow-med);
 }
 
 .notification-settings__description {
   margin: 0 0 24px;
-  font-size: 13px;
-  color: #6b7280;
+  font-size: 14px;
+  color: var(--text-muted);
   line-height: 1.5;
 }
 
 .notification-settings__loading {
   margin-top: 32px;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--text-faint);
 }
 
 .notification-settings__field {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .notification-settings__label {
   display: block;
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 8px;
+  font-size: 12px;
   font-weight: 700;
-  color: #374151;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
+/* 디스코드 연동 카드 */
 .notification-settings__discord-connect {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-app);
 }
 
 .notification-settings__discord-status {
-  font-size: 13px;
-  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.notification-settings__discord-status::before {
+  content: "";
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--brand);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 19'%3E%3Cpath d='M16.224 3.768a14.5 14.5 0 0 0-3.67-1.153c-.158.286-.343.67-.47.976a13.5 13.5 0 0 0-4.067 0c-.128-.306-.317-.69-.476-.976A14.4 14.4 0 0 0 3.868 3.77C1.546 7.28.916 10.703 1.231 14.077a14.7 14.7 0 0 0 4.5 2.306q.545-.748.965-1.587a9.5 9.5 0 0 1-1.518-.74q.191-.14.372-.293c2.927 1.369 6.107 1.369 8.999 0q.183.152.372.294-.723.437-1.52.74.418.838.963 1.588a14.6 14.6 0 0 0 4.504-2.308c.37-3.911-.63-7.302-2.644-10.309m-9.13 8.234c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.894 0 1.614.82 1.599 1.82.001 1-.705 1.82-1.6 1.82m5.91 0c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.893 0 1.614.82 1.599 1.82 0 1-.706 1.82-1.6 1.82'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 19'%3E%3Cpath d='M16.224 3.768a14.5 14.5 0 0 0-3.67-1.153c-.158.286-.343.67-.47.976a13.5 13.5 0 0 0-4.067 0c-.128-.306-.317-.69-.476-.976A14.4 14.4 0 0 0 3.868 3.77C1.546 7.28.916 10.703 1.231 14.077a14.7 14.7 0 0 0 4.5 2.306q.545-.748.965-1.587a9.5 9.5 0 0 1-1.518-.74q.191-.14.372-.293c2.927 1.369 6.107 1.369 8.999 0q.183.152.372.294-.723.437-1.52.74.418.838.963 1.588a14.6 14.6 0 0 0 4.504-2.308c.37-3.911-.63-7.302-2.644-10.309m-9.13 8.234c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.894 0 1.614.82 1.599 1.82.001 1-.705 1.82-1.6 1.82m5.91 0c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.893 0 1.614.82 1.599 1.82 0 1-.706 1.82-1.6 1.82'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
 }
 
 .notification-settings__discord-button {
   flex-shrink: 0;
-  height: 36px;
+  height: 34px;
   padding: 0 14px;
-  border: 1.5px solid #021730;
-  border-radius: var(--radius-md);
-  background-color: #fff;
-  color: #021730;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--brand);
+  color: #fff;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.15s ease;
 }
 
 .notification-settings__discord-button:hover {
-  background-color: #f1f4fa;
+  background-color: var(--brand-hover);
 }
 
 .notification-settings__categories {
   display: flex;
-  gap: 12px;
+  gap: 8px;
 }
 
+/* 디스코드 알림 카테고리 선택 */
 .notification-settings__checkbox {
   display: flex;
   align-items: center;
-  gap: 6px;
-  height: 44px;
-  padding: 0 16px;
-  border: 1.5px solid #e5e7eb;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  background-color: var(--bg-app);
   font-size: 14px;
-  font-weight: 700;
-  color: #374151;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.notification-settings__checkbox:hover {
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+}
+
+.notification-settings__checkbox:has(input:checked) {
+  border-color: var(--brand);
+  background-color: var(--brand-soft);
+  color: #fff;
+}
+
+.notification-settings__checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand);
   cursor: pointer;
 }
 
 .notification-settings__error {
   margin: 0 0 12px;
-  color: #ef4444;
+  color: #fa777c;
   font-size: 12px;
+  font-style: italic;
 }
 
 .notification-settings__submit {
   width: 100%;
-  height: 46px;
+  height: 44px;
   margin-top: 8px;
   border: none;
-  border-radius: var(--radius-md);
-  background-color: #021730;
+  border-radius: var(--radius-sm);
+  background-color: var(--brand);
   color: #fff;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .notification-settings__submit:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  opacity: 1;
+  transform: none;
+  background-color: var(--brand-hover);
 }
 
 .toast {
   display: none;
-  margin-top: 24px;
-  padding: 14px 24px;
-  border-radius: var(--radius-pill);
-  background-color: #021730;
+  margin-top: 20px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  background-color: var(--green);
   color: #fff;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
+  box-shadow: var(--shadow-med);
 }
 
 .toast.is-active {

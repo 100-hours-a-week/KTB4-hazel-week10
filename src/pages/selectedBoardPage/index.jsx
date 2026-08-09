@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
 import { getSelectedBoardsRequest } from "@/api/boardApi.js";
 import PostItem from "../boardPage/components/PostItem.jsx";
+import BoardListSkeleton from "../boardPage/components/BoardListSkeleton.jsx";
 import CategoryFilter from "@/components/categoryFilter/index.jsx";
 import "../boardPage/index.css";
 import "./index.css";
@@ -78,7 +79,7 @@ function SelectedBoardPage() {
 
         <div className="list-container">
           {isLoading && (
-            <p className="board__loading">선정된 질문을 불러오는 중입니다.</p>
+            <BoardListSkeleton count={3} label="선정된 질문을 불러오는 중입니다." />
           )}
 
           {!isLoading && errorMessage && (

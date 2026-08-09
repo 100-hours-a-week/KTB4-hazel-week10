@@ -5,6 +5,7 @@ import Modal from "@/components/modal/index.jsx";
 import { getBoardsRequest } from "@/api/boardApi.js";
 import { getNotificationSettingsRequest } from "@/api/userApi.js";
 import PostItem from "./components/PostItem.jsx";
+import BoardListSkeleton from "./components/BoardListSkeleton.jsx";
 import CategoryFilter from "@/components/categoryFilter/index.jsx";
 import "./index.css";
 
@@ -136,7 +137,7 @@ function BoardPage() {
 
         <div className="list-container">
           {isLoading && (
-            <p className="board__loading">질문을 불러오는 중입니다.</p>
+            <BoardListSkeleton label="질문 목록을 불러오는 중입니다." />
           )}
 
           {!isLoading && errorMessage && (

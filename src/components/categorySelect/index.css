@@ -10,31 +10,29 @@
   width: 100%;
   height: 44px;
   padding: 0 14px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: var(--radius-md);
-  background-color: #f9fafb;
-  color: #111827;
+  border: 1px solid var(--bg-app);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-app);
+  color: var(--text-strong);
   font-size: 14px;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .category-select__trigger:hover {
-  border-color: #021730;
+  border-color: var(--border-strong);
 }
 
 .category-select__trigger[aria-expanded="true"] {
-  border-color: #021730;
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(2, 23, 48, 0.1);
+  border-color: var(--brand);
 }
 
 .category-select__trigger.is-error {
-  border-color: #ef4444;
+  border-color: var(--red);
 }
 
 .category-select__placeholder {
-  color: #9ca3af;
+  color: var(--text-faint);
 }
 
 .category-select__arrow {
@@ -42,8 +40,8 @@
   width: 8px;
   height: 8px;
   margin-left: 8px;
-  border-right: 1.5px solid #9ca3af;
-  border-bottom: 1.5px solid #9ca3af;
+  border-right: 1.5px solid var(--text-faint);
+  border-bottom: 1.5px solid var(--text-faint);
   transform: rotate(45deg);
 }
 
@@ -56,11 +54,12 @@
   z-index: 10;
   overflow: hidden;
   margin: 0;
-  padding: 6px;
+  padding: 6px 8px;
   list-style: none;
+  border: 1px solid var(--bg-app);
   border-radius: var(--radius-md);
-  background-color: #fff;
-  box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
+  background-color: var(--bg-floating);
+  box-shadow: var(--shadow-high);
 }
 
 .category-select__menu.is-active {
@@ -70,23 +69,25 @@
 .category-select__option {
   display: block;
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: none;
   border-radius: var(--radius-sm);
-  background-color: #fff;
-  color: #374151;
+  background-color: transparent;
+  color: var(--text-muted);
   font-size: 14px;
+  font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.1s ease, color 0.1s ease;
 }
 
 .category-select__option:hover {
-  background-color: #f1f4fa;
+  background-color: var(--bg-hover);
+  color: var(--text-strong);
 }
 
 .category-select__option.is-selected {
-  background-color: #021730;
+  background-color: var(--brand);
   color: #fff;
   font-weight: 700;
 }

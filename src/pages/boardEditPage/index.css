@@ -2,22 +2,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 48px 24px 64px;
+  padding: 40px 24px 64px;
 }
 
 .title {
-  margin-bottom: 32px;
-  font-size: 22px;
-  font-weight: 800;
-  color: #111827;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-strong);
   letter-spacing: -0.01em;
 }
 
+.edit__error {
+  color: #fa777c;
+  font-size: 14px;
+}
+
+/* 디스코드 포럼 글 수정 패널 */
 .edit-form {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 592px;
+  width: 640px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-panel);
+  box-shadow: var(--shadow-med);
 }
 
 .form-container {
@@ -35,9 +46,11 @@
 
 .form__label {
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  color: #374151;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 .form__input {
@@ -45,12 +58,12 @@
   width: 100%;
   height: 44px;
   padding: 0 14px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: var(--radius-md);
-  background-color: #f9fafb;
-  color: #111827;
+  border: 1px solid var(--bg-app);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-app);
+  color: var(--text-strong);
   font-size: 15px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 .form__textarea {
@@ -58,29 +71,31 @@
   width: 100%;
   height: 260px;
   padding: 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: var(--radius-md);
-  background-color: #f9fafb;
-  color: #111827;
+  border: 1px solid var(--bg-app);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-app);
+  color: var(--text-strong);
   resize: none;
+  font-family: inherit;
   font-size: 15px;
   line-height: 1.5;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 .form__input:focus,
 .form__textarea:focus {
   outline: none;
-  border-color: #021730;
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(2, 23, 48, 0.1);
+  border-color: var(--brand);
+  background-color: var(--bg-app);
+  box-shadow: none;
 }
 
 .form__helper {
   min-height: 16px;
-  margin-top: 4px;
-  color: #ef4444;
+  margin-top: 6px;
+  color: #fa777c;
   font-size: 12px;
+  font-style: italic;
 }
 
 .file-field {
@@ -96,24 +111,24 @@
   justify-content: center;
   height: 32px;
   padding: 0 14px;
-  border: 1.5px solid #e5e7eb;
+  border: none;
   border-radius: var(--radius-sm);
-  background-color: #fff;
-  color: #021730;
+  background-color: var(--bg-elevated);
+  color: var(--text-strong);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .file-field__button:hover {
-  border-color: #021730;
-  background-color: #f1f4fa;
+  border-color: transparent;
+  background-color: var(--bg-hover);
 }
 
 .file-field__name {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--text-faint);
 }
 
 .file-field__input {
@@ -135,41 +150,43 @@
 
 .image-preview__text {
   font-size: 13px;
-  color: #374151;
+  color: var(--text-muted);
 }
 
 .image-preview__delete-button {
   height: 28px;
   padding: 0 10px;
-  border: 1.5px solid #e5e7eb;
+  border: none;
   border-radius: var(--radius-sm);
-  background-color: #fff;
-  color: #374151;
+  background-color: transparent;
+  color: var(--text-muted);
   font-size: 13px;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .image-preview__delete-button:hover {
-  border-color: #021730;
-  background-color: #f1f4fa;
+  border-color: transparent;
+  background-color: var(--red-soft);
+  color: #f5989c;
 }
 
 .edit__button {
   width: 100%;
-  height: 46px;
+  height: 44px;
   margin-top: 24px;
-  border-radius: var(--radius-md);
-  background-color: #021730;
+  border-radius: var(--radius-sm);
+  background-color: var(--brand);
   border: none;
   color: #fff;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .edit__button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  opacity: 1;
+  transform: none;
+  background-color: var(--brand-hover);
 }

@@ -1,9 +1,46 @@
 :root {
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
   --radius-pill: 999px;
+
+  /* Discord 다크 테마 서피스 */
+  --bg-app: #1e1f22;
+  --bg-panel: #2b2d31;
+  --bg-surface: #313338;
+  --bg-elevated: #383a40;
+  --bg-hover: #404249;
+  --bg-floating: #111214;
+
+  /* Blurple */
+  --brand: #5865f2;
+  --brand-hover: #4752c4;
+  --brand-active: #3c45a5;
+  --brand-soft: rgba(88, 101, 242, 0.16);
+
+  /* 텍스트 */
+  --text-strong: #f2f3f5;
+  --text: #dbdee1;
+  --text-muted: #b5bac1;
+  --text-faint: #949ba4;
+  --text-on-brand: #fff;
+  --text-link: #00a8fc;
+
+  /* 선 */
+  --border: #3f4147;
+  --border-strong: #4e5058;
+  --divider: rgba(255, 255, 255, 0.06);
+
+  /* 상태 */
+  --green: #23a559;
+  --red: #da373c;
+  --red-hover: #a12828;
+  --red-soft: rgba(218, 55, 60, 0.16);
+
+  --shadow-low: 0 1px 0 rgba(4, 4, 5, 0.2);
+  --shadow-med: 0 4px 8px rgba(0, 0, 0, 0.24);
+  --shadow-high: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 @font-face {
@@ -88,6 +125,38 @@ html,
 body {
   min-height: 100%;
   margin: 0;
-  background-color: #f4f5f7;
+  background-color: var(--bg-app);
+  color: var(--text);
   font-family: "SUIT", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--brand);
+  color: var(--text-on-brand);
+}
+
+/* Discord 스타일 스크롤바 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-app) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-app);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }

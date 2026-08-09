@@ -6,26 +6,40 @@
   margin-bottom: 20px;
 }
 
+/* 디스코드 채널 목록처럼 "#" 을 붙인 탭 */
 .category-filter__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 34px;
-  padding: 0 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: var(--radius-pill);
-  background-color: #fff;
-  color: #6b7280;
+  padding: 0 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--text-faint);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.category-filter__button::before {
+  content: "#";
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.7;
 }
 
 .category-filter__button:hover {
-  border-color: #021730;
-  color: #021730;
+  background-color: var(--bg-hover);
+  color: var(--text);
 }
 
 .category-filter__button.is-active {
-  border-color: #021730;
-  background-color: #021730;
+  background-color: var(--brand-soft);
   color: #fff;
+}
+
+.category-filter__button.is-active::before {
+  opacity: 1;
 }

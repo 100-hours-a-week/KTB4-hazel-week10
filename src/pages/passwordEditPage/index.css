@@ -2,19 +2,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 96px 24px 64px;
+  padding: 72px 24px 64px;
 }
 
 .title {
-  margin-bottom: 32px;
-  font-size: 22px;
-  font-weight: 800;
-  color: #111827;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-strong);
   letter-spacing: -0.01em;
 }
 
+/* 디스코드 설정 패널 */
 .password-edit-form {
-  width: 392px;
+  box-sizing: border-box;
+  width: 440px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-panel);
+  box-shadow: var(--shadow-med);
 }
 
 .form-container {
@@ -25,19 +31,20 @@
 
 .password-edit__button {
   width: 100%;
-  height: 46px;
+  height: 44px;
   margin-top: 24px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: none;
-  background-color: #021730;
+  background-color: var(--brand);
   color: #fff;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .password-edit__button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  opacity: 1;
+  transform: none;
+  background-color: var(--brand-hover);
 }

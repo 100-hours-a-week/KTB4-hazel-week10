@@ -6,7 +6,6 @@
   margin-bottom: 20px;
 }
 
-/* 디스코드 채널 목록처럼 "#" 을 붙인 탭 */
 .category-filter__button {
   display: inline-flex;
   align-items: center;

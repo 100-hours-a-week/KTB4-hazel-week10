@@ -17,7 +17,6 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* 디스코드 모달: 본문 + 어두운 푸터 액션 바 */
 .modal__content {
   position: relative;
   z-index: 1;

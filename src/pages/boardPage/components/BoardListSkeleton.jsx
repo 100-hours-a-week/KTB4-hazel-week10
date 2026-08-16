@@ -2,9 +2,6 @@ import Skeleton, { SkeletonGroup, SkeletonText } from "@/components/skeleton/ind
 
 const DEFAULT_ITEM_COUNT = 5;
 
-/**
- * PostItem과 같은 구조·클래스를 써서 로딩이 끝나도 카드 높이가 변하지 않는다.
- */
 function PostItemSkeleton() {
   return (
     <div className="item item--skeleton">

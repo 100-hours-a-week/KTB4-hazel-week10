@@ -14,7 +14,6 @@ function DiscordCallbackPage() {
   const processedCodeRef = useRef(null);
   const connectMutation = useConnectDiscordAccount();
 
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "디스코드 연동";
   }, []);
@@ -57,8 +56,6 @@ function DiscordCallbackPage() {
         setErrorMessage(error.message || "디스코드 연동에 실패했습니다.");
       });
   }, [connectMutation, navigate, searchParams]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
   const isPopup = Boolean(window.opener);
 
   return (

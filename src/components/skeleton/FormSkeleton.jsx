@@ -3,11 +3,6 @@ import Skeleton, { SkeletonGroup, SkeletonText } from "./index.jsx";
 const DEFAULT_FIELD_HEIGHTS = [44, 44, 44];
 const DEFAULT_GAP = 16;
 
-/**
- * 라벨 + 입력 필드가 반복되는 설정·수정 폼의 로딩 자리표시자다.
- * fieldHeights에는 라벨을 뺀 입력 요소의 높이를, gap에는 필드 사이 간격을
- * 실제 폼과 같게 넘겨 로딩이 끝나도 패널 높이가 그대로 유지되게 한다.
- */
 function FormSkeleton({
   hasAvatar = false,
   hasDescription = false,

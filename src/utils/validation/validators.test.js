@@ -121,20 +121,20 @@ describe("isValidPassword", () => {
 
   describe("길이 조건 (8자 이상 20자 이하)", () => {
     it("8자 미만이면 false를 반환한다", () => {
-      expect(isValidPassword("Abc1!de")).toBe(false); // 7자
-      expect(isValidPassword("Pass1!")).toBe(false); // 6자
+      expect(isValidPassword("Abc1!de")).toBe(false);
+      expect(isValidPassword("Pass1!")).toBe(false);
     });
 
     it("경계값인 8자면 true를 반환한다", () => {
-      expect(isValidPassword("Abcd1!ef")).toBe(true); // 8자
+      expect(isValidPassword("Abcd1!ef")).toBe(true);
     });
 
     it("경계값인 20자면 true를 반환한다", () => {
-      expect(isValidPassword("Abcdefghij1234567!zz")).toBe(true); // 20자
+      expect(isValidPassword("Abcdefghij1234567!zz")).toBe(true);
     });
 
     it("20자를 초과하면 false를 반환한다", () => {
-      expect(isValidPassword("Abcdefghij1234567!zzz")).toBe(false); // 21자
+      expect(isValidPassword("Abcdefghij1234567!zzz")).toBe(false);
     });
 
     it("빈 문자열이면 false를 반환한다", () => {

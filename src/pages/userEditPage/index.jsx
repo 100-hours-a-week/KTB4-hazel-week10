@@ -34,8 +34,6 @@ function UserEditPage() {
   const profileImageUrl =
     previewUrl || resolveImageUrl(user.profileImage) || undefined;
 
-  // 서버에서 불러온 사용자 정보를 수정 폼의 초기값으로 주입합니다.
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "회원정보수정";
   }, []);
@@ -53,8 +51,6 @@ function UserEditPage() {
       profileImage: data.profileImage ?? "",
     });
   }, [userQuery.data]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
   useEffect(() => {
     return () => {
       if (previewUrl) {

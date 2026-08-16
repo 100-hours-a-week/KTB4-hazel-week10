@@ -18,7 +18,6 @@ function getBoardDetailPath(postId) {
   return `/boards/${postId}`;
 }
 
-// 디스코드 연동 안내는 계정당 한 번만 노출한다.
 function getDiscordPromptKey() {
   const userId = localStorage.getItem("userId");
 
@@ -46,8 +45,6 @@ function BoardPage() {
     ? "질문을 불러오지 못했습니다."
     : "";
 
-  // 서버 응답을 확인한 뒤 계정별 안내 모달을 열어야 합니다.
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "면접 질문 게시판";
   }, []);
@@ -67,8 +64,6 @@ function BoardPage() {
     localStorage.setItem(promptKey, "true");
     setIsDiscordPromptOpen(true);
   }, [notificationQuery.data, promptKey]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
   const handleCategoryChange = (nextCategory) => {
     setCategory(nextCategory);
     setPage(0);

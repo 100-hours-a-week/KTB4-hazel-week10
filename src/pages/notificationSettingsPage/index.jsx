@@ -27,8 +27,6 @@ function NotificationSettingsPage() {
   const isSubmitting = updateNotificationMutation.isPending;
   const { value: isSaved, setTrue: markSaved, setFalse: clearSaved } = useBooleanState(false);
 
-  // 서버 설정을 화면의 로컬 선택 상태로 동기화합니다.
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "알림 설정";
   }, []);
@@ -64,8 +62,6 @@ function NotificationSettingsPage() {
     setDiscordUserId(data.discordUserId ?? "");
     setCategories(data.categories ?? []);
   }, [notificationQuery.data]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
   const handleToggleCategory = (value) => {
     setCategories((prev) =>
       prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value],

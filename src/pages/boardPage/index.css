@@ -14,7 +14,6 @@
   max-width: 900px;
 }
 
-/* 디스코드 포럼 채널 헤더처럼 "#" 을 붙인 제목 */
 .title-container .title:nth-child(1) {
   display: flex;
   align-items: center;
@@ -89,7 +88,6 @@
   max-width: 900px;
 }
 
-/* 디스코드 포럼 게시물 카드 */
 .item {
   display: flex;
   box-sizing: border-box;
@@ -124,7 +122,6 @@
   color: #fa777c;
 }
 
-/* 로딩 자리표시자 카드는 클릭 대상이 아니다. */
 .board-skeleton {
   display: flex;
   flex-direction: column;
@@ -141,7 +138,6 @@
   border-color: transparent;
 }
 
-/* .item__title과 같은 글자 크기·줄 높이라서 두 줄 높이가 정확히 일치한다. */
 .item__title-lines {
   display: flex;
   flex: 1;
@@ -182,7 +178,6 @@
   font-weight: 700;
 }
 
-/* 디스코드 포럼 태그 */
 .item__category {
   flex-shrink: 0;
   display: inline-flex;
@@ -220,7 +215,6 @@
   min-height: calc(16px * 1.4 * 2);
 }
 
-/* 디스코드 메시지 리액션 스타일 */
 .item__vote {
   display: flex;
   flex-shrink: 0;

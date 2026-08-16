@@ -18,7 +18,6 @@
   font-size: 14px;
 }
 
-/* 디스코드 유저 설정 패널 */
 .user-edit-form {
   box-sizing: border-box;
   display: flex;
@@ -176,7 +175,6 @@
   text-decoration: underline;
 }
 
-/* 디스코드 토스트 */
 .toast {
   display: none;
   margin-top: 32px;

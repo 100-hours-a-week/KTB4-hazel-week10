@@ -11,7 +11,6 @@
   align-items: center;
 }
 
-/* 디스코드 포럼 게시물 본문 카드 */
 .detail__card {
   box-sizing: border-box;
   width: 100%;
@@ -23,7 +22,6 @@
   box-shadow: none;
 }
 
-/* 포럼 태그 */
 .detail__category {
   display: inline-flex;
   align-items: center;
@@ -99,7 +97,6 @@
   line-height: 130%;
 }
 
-/* 디스코드 메시지 호버 액션처럼 평소엔 흐리게 */
 .detail__button-container {
   display: flex;
   gap: 4px;
@@ -201,7 +198,6 @@
   line-height: 130%;
 }
 
-/* 디스코드 리액션 버튼 */
 .detail__vote-container {
   display: flex;
   justify-content: center;
@@ -242,7 +238,6 @@
   color: #f5989c;
 }
 
-/* 디스코드 메시지 입력창 */
 .comment-form {
   width: 100%;
   margin-bottom: 24px;
@@ -302,7 +297,6 @@
   opacity: 1;
 }
 
-/* 디스코드 채팅 로그 */
 .comment-list {
   display: flex;
   flex-direction: column;
@@ -324,7 +318,6 @@
   text-align: center;
 }
 
-/* 디스코드 메시지 한 줄 */
 .comment-item {
   display: flex;
   gap: 14px;
@@ -405,7 +398,6 @@
   text-align: center;
 }
 
-/* 로딩 자리표시자 */
 .detail-skeleton {
   width: 100%;
 }
@@ -423,7 +415,6 @@
   border-left-color: transparent;
 }
 
-/* 터치 기기는 호버가 없으므로 항상 노출한다. */
 @media (hover: none) {
   .comment-item__button-container,
   .detail__button-container {

@@ -2,9 +2,6 @@ import Skeleton, { SkeletonGroup, SkeletonText } from "@/components/skeleton/ind
 
 const DEFAULT_COMMENT_COUNT = 3;
 
-/**
- * CommentItem과 같은 구조·클래스를 써서 댓글이 도착해도 목록이 밀리지 않는다.
- */
 function CommentItemSkeleton() {
   return (
     <div className="comment-item comment-item--skeleton">

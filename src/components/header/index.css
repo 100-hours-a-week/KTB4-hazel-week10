@@ -61,7 +61,6 @@
   height: 36px;
 }
 
-/* 디스코드 채널 이름처럼 "#" 마크를 붙인다. */
 .header__title {
   display: flex;
   align-items: center;
@@ -100,7 +99,6 @@
   box-shadow: 0 0 0 3px var(--brand-soft);
 }
 
-/* 온라인 상태 점 */
 .header__profile-button::after {
   content: "";
   position: absolute;

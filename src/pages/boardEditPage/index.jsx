@@ -34,8 +34,6 @@ function BoardEditPage() {
   const loadErrorMessage = boardDetailQuery.error?.message || "";
   const imageFileText = getImageFileText(currentImages, newImages);
 
-  // 서버에서 불러온 게시글을 수정 폼의 초기값으로 주입합니다.
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "질문 수정";
   }, []);
@@ -56,8 +54,6 @@ function BoardEditPage() {
     setNewImages([]);
     setErrors(INITIAL_ERRORS);
   }, [boardDetailQuery.data]);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
   const handleInputChange = ({ target: { name, value } }) => {
     setForm((prev) => ({
       ...prev,

@@ -1,4 +1,3 @@
-/* 디스코드 로딩 플레이스홀더: 은은하게 훑고 지나가는 shimmer */
 .skeleton {
   display: block;
   flex-shrink: 0;
@@ -23,10 +22,6 @@
   border-radius: 50%;
 }
 
-/*
- * 텍스트 한 줄과 같은 높이를 차지하는 자리표시자.
- * 실제 텍스트 클래스를 함께 주면 그 글자 크기의 줄 높이(1lh)를 그대로 따른다.
- */
 .skeleton-text {
   display: flex;
   align-items: center;
@@ -44,7 +39,6 @@
   gap: 16px;
 }
 
-/* 실제 폼 라벨과 같은 글자 크기라야 라벨 줄 높이가 일치한다. */
 .form-skeleton .skeleton-text {
   font-size: 12px;
 }
@@ -55,7 +49,6 @@
   flex-direction: column;
 }
 
-/* 실제 안내 문구와 같은 줄 높이(14px · 1.5) */
 .form-skeleton__description .skeleton-text {
   height: 21px;
   font-size: 14px;

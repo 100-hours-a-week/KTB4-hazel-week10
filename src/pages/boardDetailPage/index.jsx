@@ -67,10 +67,7 @@ function BoardDetailPage() {
       setIsPostDeleteModalOpen(false);
       navigate(BOARD_LIST_PATH);
     } catch (error) {
-      window.alert(
-        error.message ||
-          "질문 삭제에 실패했습니다.",
-      );
+      window.alert(error.message || "질문 삭제에 실패했습니다.");
     }
   };
 
@@ -83,19 +80,14 @@ function BoardDetailPage() {
       if (post.myVoteType === voteType) {
         await cancelVoteMutation.mutateAsync(postId);
       } else {
-        // 찬성 <-> 반대 변경도 서버가 한 번에 처리한다.
         await voteMutation.mutateAsync({
           boardId: postId,
           voteType,
         });
       }
     } catch (error) {
-      window.alert(
-        error.message ||
-          "투표에 실패했습니다.",
-      );
+      window.alert(error.message || "투표에 실패했습니다.");
 
-      // 실패 지점에 따라 서버 상태를 알 수 없으므로 캐시를 다시 확인한다.
       await refresh().catch(() => {});
     }
   };
@@ -104,9 +96,7 @@ function BoardDetailPage() {
     const content = commentContent.trim();
 
     if (!content) {
-      window.alert(
-        "댓글을 입력해주세요.",
-      );
+      window.alert("댓글을 입력해주세요.");
       return;
     }
 
@@ -122,10 +112,7 @@ function BoardDetailPage() {
 
       setCommentContent("");
     } catch (error) {
-      window.alert(
-        error.message ||
-          "댓글 등록에 실패했습니다.",
-      );
+      window.alert(error.message || "댓글 등록에 실패했습니다.");
     }
   };
 
@@ -138,10 +125,7 @@ function BoardDetailPage() {
           data: { content },
         });
       } catch (error) {
-        window.alert(
-          error.message ||
-            "댓글 수정에 실패했습니다.",
-        );
+        window.alert(error.message || "댓글 수정에 실패했습니다.");
 
         throw error;
       }
@@ -164,10 +148,7 @@ function BoardDetailPage() {
 
         setSelectedCommentId(null);
       } catch (error) {
-        window.alert(
-          error.message ||
-            "댓글 삭제에 실패했습니다.",
-        );
+        window.alert(error.message || "댓글 삭제에 실패했습니다.");
       }
     };
 

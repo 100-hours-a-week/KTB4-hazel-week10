@@ -13,7 +13,6 @@
   letter-spacing: -0.01em;
 }
 
-/* 디스코드 "연결" 설정 패널 */
 .notification-settings-form {
   box-sizing: border-box;
   display: flex;
@@ -52,7 +51,6 @@
   color: var(--text-muted);
 }
 
-/* 디스코드 연동 카드 */
 .notification-settings__discord-connect {
   display: flex;
   align-items: center;
@@ -111,7 +109,6 @@
   gap: 8px;
 }
 
-/* 디스코드 알림 카테고리 선택 */
 .notification-settings__checkbox {
   display: flex;
   align-items: center;

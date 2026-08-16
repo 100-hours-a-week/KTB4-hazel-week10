@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header/index.jsx";
-import { getSelectedBoardsRequest } from "@/api/boardApi.js";
+import boardQueries from "@/queryFactory/boardQueries.js";
 import PostItem from "../boardPage/components/PostItem.jsx";
 import BoardListSkeleton from "../boardPage/components/BoardListSkeleton.jsx";
 import CategoryFilter from "@/components/categoryFilter/index.jsx";
@@ -15,12 +16,18 @@ function getBoardDetailPath(postId) {
 function SelectedBoardPage() {
   const navigate = useNavigate();
 
-  const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [category, setCategory] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const selectedBoardQuery = useQuery(
+    boardQueries.selectedList(page, 10, category),
+  );
+
+  const posts = selectedBoardQuery.data?.data?.content ?? [];
+  const totalPages = selectedBoardQuery.data?.data?.totalPages ?? 0;
+  const isLoading = selectedBoardQuery.isPending;
+  const errorMessage = selectedBoardQuery.error
+    ? "선정된 질문을 불러오지 못했습니다."
+    : "";
 
   useEffect(() => {
     document.title = "선정된 면접 질문";
@@ -30,40 +37,6 @@ function SelectedBoardPage() {
     setCategory(nextCategory);
     setPage(0);
   };
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    setIsLoading(true);
-
-    getSelectedBoardsRequest(page, 10, category)
-      .then((response) => {
-        if (isCancelled) {
-          return;
-        }
-
-        setPosts(response.data?.content ?? []);
-        setTotalPages(response.data?.totalPages ?? 0);
-        setErrorMessage("");
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("선정된 질문 조회 실패:", error);
-        setErrorMessage("선정된 질문을 불러오지 못했습니다.");
-      })
-      .finally(() => {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [page, category]);
 
   return (
     <>

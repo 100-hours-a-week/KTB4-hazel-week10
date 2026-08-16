@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header/index.jsx";
-import { getDiscordAuthorizeUrlRequest, getNotificationSettingsRequest, updateNotificationSettingsRequest } from "@/api/userApi.js";
+import userQueries from "@/queryFactory/userQueries.js";
+import { useUpdateNotificationSettings } from "@/hooks/useUserMutations.js";
 import useBooleanState from "@/utils/useBooleanState.js";
 import { CATEGORIES } from "@/utils/categories.js";
 import FormSkeleton from "@/components/skeleton/FormSkeleton.jsx";
@@ -10,14 +12,23 @@ function NotificationSettingsPage() {
   const toastTimerRef = useRef(null);
   const [discordUserId, setDiscordUserId] = useState("");
   const [categories, setCategories] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
 
-  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
+  const notificationQuery = useQuery(userQueries.notificationSettings());
+  const authorizeUrlQuery = useQuery({
+    ...userQueries.discordAuthorizeUrl(),
+    enabled: false,
+  });
+  const updateNotificationMutation = useUpdateNotificationSettings();
+  const { refetch: refetchNotificationSettings } = notificationQuery;
+  const isLoaded = !notificationQuery.isPending;
+  const loadErrorMessage = notificationQuery.error?.message || "";
+  const isSubmitting = updateNotificationMutation.isPending;
   const { value: isSaved, setTrue: markSaved, setFalse: clearSaved } = useBooleanState(false);
 
+  // 서버 설정을 화면의 로컬 선택 상태로 동기화합니다.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "알림 설정";
   }, []);
@@ -44,36 +55,16 @@ function NotificationSettingsPage() {
   };
 
   useEffect(() => {
-    let isCancelled = false;
+    const data = notificationQuery.data?.data;
 
-    getNotificationSettingsRequest()
-      .then(({ data }) => {
-        if (isCancelled) {
-          return;
-        }
+    if (!data) {
+      return;
+    }
 
-        setDiscordUserId(data.discordUserId ?? "");
-        setCategories(data.categories ?? []);
-        setLoadErrorMessage("");
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("알림 설정 조회 실패:", error);
-        setLoadErrorMessage(error.message || "알림 설정을 불러오지 못했습니다.");
-      })
-      .finally(() => {
-        if (!isCancelled) {
-          setIsLoaded(true);
-        }
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+    setDiscordUserId(data.discordUserId ?? "");
+    setCategories(data.categories ?? []);
+  }, [notificationQuery.data]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleToggleCategory = (value) => {
     setCategories((prev) =>
@@ -84,8 +75,12 @@ function NotificationSettingsPage() {
 
   const handleConnectDiscord = async () => {
     try {
-      const { data } = await getDiscordAuthorizeUrlRequest();
-      window.open(data.url, "discord-oauth", "width=480,height=720");
+      const { data } = await authorizeUrlQuery.refetch();
+      window.open(
+        data?.data?.url,
+        "discord-oauth",
+        "width=480,height=720",
+      );
     } catch (error) {
       console.error("디스코드 인증 URL 조회 실패:", error);
       setErrorMessage(error.message || "디스코드 연결을 시작하지 못했습니다.");
@@ -102,10 +97,12 @@ function NotificationSettingsPage() {
         return;
       }
 
-      getNotificationSettingsRequest()
+      refetchNotificationSettings()
         .then(({ data }) => {
-          setDiscordUserId(data.discordUserId ?? "");
-          setCategories(data.categories ?? []);
+          const settings = data?.data;
+
+          setDiscordUserId(settings?.discordUserId ?? "");
+          setCategories(settings?.categories ?? []);
         })
         .catch((error) => {
           console.error("알림 설정 재조회 실패:", error);
@@ -119,7 +116,7 @@ function NotificationSettingsPage() {
     return () => {
       window.removeEventListener("message", handleDiscordConnected);
     };
-  }, []);
+  }, [refetchNotificationSettings]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -129,9 +126,7 @@ function NotificationSettingsPage() {
     }
 
     try {
-      startSubmitting();
-
-      await updateNotificationSettingsRequest({ categories });
+      await updateNotificationMutation.mutateAsync({ categories });
 
       setErrorMessage("");
       markSaved();
@@ -139,8 +134,6 @@ function NotificationSettingsPage() {
     } catch (error) {
       console.error("알림 설정 저장 실패:", error);
       setErrorMessage(error.message || "알림 설정 저장에 실패했습니다.");
-    } finally {
-      finishSubmitting();
     }
   };
 

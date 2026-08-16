@@ -1,13 +1,15 @@
 vi.mock("./http.js", () => ({
-  request: vi.fn(),
+  default: {
+    post: vi.fn(),
+  },
 }));
 
-import { request } from "./http.js";
+import apiClient from "./http.js";
 import { loginRequest, logoutRequest, signupRequest } from "./authApi.js";
 
 beforeEach(() => {
   vi.clearAllMocks();
-  request.mockResolvedValue({ data: {} });
+  apiClient.post.mockResolvedValue({ data: {} });
 });
 
 describe("authApi", () => {
@@ -19,10 +21,7 @@ describe("authApi", () => {
 
     await loginRequest(data);
 
-    expect(request).toHaveBeenCalledWith("/users/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    expect(apiClient.post).toHaveBeenCalledWith("/users/login", data);
   });
 
   it("signupRequest는 회원가입 FormData를 POST 요청으로 전달한다", async () => {
@@ -31,17 +30,12 @@ describe("authApi", () => {
 
     await signupRequest(formData);
 
-    expect(request).toHaveBeenCalledWith("/users/signup", {
-      method: "POST",
-      body: formData,
-    });
+    expect(apiClient.post).toHaveBeenCalledWith("/users/signup", formData);
   });
 
   it("logoutRequest는 로그아웃 POST 요청을 전달한다", async () => {
     await logoutRequest();
 
-    expect(request).toHaveBeenCalledWith("/users/logout", {
-      method: "POST",
-    });
+    expect(apiClient.post).toHaveBeenCalledWith("/users/logout");
   });
 });

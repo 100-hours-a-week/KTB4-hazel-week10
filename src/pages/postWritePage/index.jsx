@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
-import { createBoardRequest } from "../../api/boardApi.js";
-import useBooleanState from "../../utils/useBooleanState.js";
+import { useCreateBoard } from "@/hooks/useBoardMutations.js";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, hasValidationError, normalizeBoardForm, validateBoardForm } from "./boardWriteUtils.js";
 import CategorySelect from "../../components/categorySelect/index.jsx";
@@ -16,7 +15,8 @@ function BoardWritePage() {
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState(INITIAL_ERRORS);
   const [selectedImages, setSelectedImages] = useState([]);
-  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
+  const createBoardMutation = useCreateBoard();
+  const isSubmitting = createBoardMutation.isPending;
 
   const handleInputChange = ({ target: { name, value } }) => {
     setForm((prev) => ({
@@ -64,9 +64,7 @@ function BoardWritePage() {
     const formData = createBoardFormData(normalizedForm, selectedImages);
 
     try {
-      startSubmitting();
-
-      const response = await createBoardRequest(formData);
+      const response = await createBoardMutation.mutateAsync(formData);
       const boardId = response?.data?.id;
 
       navigate(boardId ? `/boards/${boardId}` : BOARD_LIST_PATH);
@@ -77,8 +75,6 @@ function BoardWritePage() {
         ...prev,
         content: error.message || "질문 등록에 실패했습니다.",
       }));
-    } finally {
-      finishSubmitting();
     }
   };
 

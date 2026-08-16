@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header/index.jsx";
 import Modal from "@/components/modal/index.jsx";
-import { deleteMyAccountRequest, getMyInfoRequest, updateMyInfoRequest } from "@/api/userApi.js";
-import useBooleanState from "@/utils/useBooleanState.js";
+import userQueries from "@/queryFactory/userQueries.js";
+import {
+  useDeleteMyAccount,
+  useUpdateMyInfo,
+} from "@/hooks/useUserMutations.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import UserEditForm from "./components/UserEditForm.jsx";
 import FormSkeleton from "@/components/skeleton/FormSkeleton.jsx";
@@ -19,63 +23,40 @@ function UserEditPage() {
   const [nicknameError, setNicknameError] = useState("");
   const [selectedProfileImage, setSelectedProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadErrorMessage, setLoadErrorMessage] = useState("");
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
-  const {
-    value: isSubmitting,
-    setTrue: startSubmitting,
-    setFalse: finishSubmitting,
-  } = useBooleanState(false);
-
-  const {
-    value: isWithdrawing,
-    setTrue: startWithdrawing,
-    setFalse: finishWithdrawing,
-  } = useBooleanState(false);
+  const userQuery = useQuery(userQueries.me());
+  const updateMyInfoMutation = useUpdateMyInfo();
+  const deleteMyAccountMutation = useDeleteMyAccount();
+  const isLoaded = !userQuery.isPending;
+  const loadErrorMessage = userQuery.error?.message || "";
+  const isSubmitting = updateMyInfoMutation.isPending;
+  const isWithdrawing = deleteMyAccountMutation.isPending;
 
   const profileImageUrl =
     previewUrl || resolveImageUrl(user.profileImage) || undefined;
 
+  // 서버에서 불러온 사용자 정보를 수정 폼의 초기값으로 주입합니다.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "회원정보수정";
   }, []);
 
   useEffect(() => {
-    let isCancelled = false;
+    const data = userQuery.data?.data;
 
-    getMyInfoRequest()
-      .then(({ data }) => {
-        if (isCancelled) {
-          return;
-        }
+    if (!data) {
+      return;
+    }
 
-        setUser({
-          email: data.email ?? "",
-          nickname: data.nickname ?? "",
-          profileImage: data.profileImage ?? "",
-        });
-        setLoadErrorMessage("");
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("내 정보 조회 실패:", error);
-        setLoadErrorMessage(
-          error.message || "회원정보를 불러오지 못했습니다.",
-        );
-        setIsLoaded(true);
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+    setUser({
+      email: data.email ?? "",
+      nickname: data.nickname ?? "",
+      profileImage: data.profileImage ?? "",
+    });
+  }, [userQuery.data]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     return () => {
@@ -143,9 +124,7 @@ function UserEditPage() {
     const formData = createUserEditFormData(nickname, selectedProfileImage);
 
     try {
-      startSubmitting();
-
-      const response = await updateMyInfoRequest(formData);
+      const response = await updateMyInfoMutation.mutateAsync(formData);
       const updatedProfileImage = response?.data?.profileImage;
 
       setUser((prev) => ({
@@ -158,8 +137,6 @@ function UserEditPage() {
     } catch (error) {
       console.error("회원정보 수정 실패:", error);
       setNicknameError(error.message || "회원정보 수정에 실패했습니다.");
-    } finally {
-      finishSubmitting();
     }
   };
 
@@ -177,17 +154,13 @@ function UserEditPage() {
     }
 
     try {
-      startWithdrawing();
-
-      await deleteMyAccountRequest();
+      await deleteMyAccountMutation.mutateAsync();
       setIsWithdrawModalOpen(false);
       clearAuthData();
       navigate("/login", { replace: true });
     } catch (error) {
       console.error("회원 탈퇴 실패:", error);
       window.alert(error.message || "회원 탈퇴에 실패했습니다.");
-    } finally {
-      finishWithdrawing();
     }
   };
 

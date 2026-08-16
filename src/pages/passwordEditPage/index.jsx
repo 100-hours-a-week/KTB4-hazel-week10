@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import Input from "../../components/input/index.jsx";
-import { changePasswordRequest } from "../../api/userApi.js";
-import useBooleanState from "../../utils/useBooleanState.js";
+import { useChangePassword } from "@/hooks/useUserMutations.js";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { PASSWORD_FIELDS } from "./passwordEditFields.js";
 import { hasValidationError, normalizePasswordForm, validatePasswordForm } from "./passwordEditValidation.js";
@@ -16,7 +15,8 @@ function PasswordEditPage() {
 
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState(INITIAL_ERRORS);
-  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
+  const changePasswordMutation = useChangePassword();
+  const isSubmitting = changePasswordMutation.isPending;
 
   useEffect(() => {
     document.title = "비밀번호 수정";
@@ -56,9 +56,7 @@ function PasswordEditPage() {
     };
 
     try {
-      startSubmitting();
-
-      await changePasswordRequest(updatePayload);
+      await changePasswordMutation.mutateAsync(updatePayload);
 
       window.alert("비밀번호가 수정되었습니다.");
       navigate(BOARD_LIST_PATH);
@@ -69,8 +67,6 @@ function PasswordEditPage() {
         ...prev,
         currentPassword: error.message || "비밀번호 수정에 실패했습니다.",
       }));
-    } finally {
-      finishSubmitting();
     }
   };
 

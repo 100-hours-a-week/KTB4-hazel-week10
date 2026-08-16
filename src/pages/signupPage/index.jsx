@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Header from "../../components/header/index.jsx";
 import Input from "../../components/input/index.jsx";
-import { signupRequest } from "@/api/authApi.js";
-import useBooleanState from "../../utils/useBooleanState.js"
+import { useSignup } from "@/hooks/useAuthMutations.js";
 
 import ProfileImageField from "./components/ProfileImageField.jsx";
 import { INITIAL_FORM, INITIAL_ERRORS } from "./initialState.js";
@@ -29,11 +28,8 @@ function SignupPage() {
   const [profileImage, setProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
-  const {
-    value: isSubmitting,
-    setTrue: startSubmitting,
-    setFalse: finishSubmitting,
-  } = useBooleanState(false);
+  const signupMutation = useSignup();
+  const isSubmitting = signupMutation.isPending;
 
   useEffect(() => {
     return () => {
@@ -91,9 +87,7 @@ function SignupPage() {
     );
 
     try {
-      startSubmitting();
-
-      await signupRequest(signupFormData);
+      await signupMutation.mutateAsync(signupFormData);
 
       alert("회원가입이 완료되었습니다.");
       navigate(LOGIN_PATH);
@@ -103,8 +97,6 @@ function SignupPage() {
         email:
           error.message || "회원가입에 실패했습니다.",
       }));
-    } finally {
-      finishSubmitting();
     }
   };
 

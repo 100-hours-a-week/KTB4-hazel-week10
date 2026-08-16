@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header/index.jsx";
 import Modal from "@/components/modal/index.jsx";
-import { getBoardsRequest } from "@/api/boardApi.js";
-import { getNotificationSettingsRequest } from "@/api/userApi.js";
+import boardQueries from "@/queryFactory/boardQueries.js";
+import userQueries from "@/queryFactory/userQueries.js";
 import PostItem from "./components/PostItem.jsx";
 import BoardListSkeleton from "./components/BoardListSkeleton.jsx";
 import CategoryFilter from "@/components/categoryFilter/index.jsx";
@@ -27,83 +28,51 @@ function getDiscordPromptKey() {
 function BoardPage() {
   const navigate = useNavigate();
 
-  const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [category, setCategory] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isDiscordPromptOpen, setIsDiscordPromptOpen] = useState(false);
 
+  const promptKey = getDiscordPromptKey();
+  const boardQuery = useQuery(boardQueries.list(page, 10, category));
+  const notificationQuery = useQuery({
+    ...userQueries.notificationSettings(),
+    enabled: Boolean(promptKey) && !localStorage.getItem(promptKey),
+  });
+
+  const posts = boardQuery.data?.data?.content ?? [];
+  const totalPages = boardQuery.data?.data?.totalPages ?? 0;
+  const isLoading = boardQuery.isPending;
+  const errorMessage = boardQuery.error
+    ? "질문을 불러오지 못했습니다."
+    : "";
+
+  // 서버 응답을 확인한 뒤 계정별 안내 모달을 열어야 합니다.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "면접 질문 게시판";
   }, []);
 
   useEffect(() => {
-    const promptKey = getDiscordPromptKey();
+    const notificationData = notificationQuery.data?.data;
 
-    if (!promptKey || localStorage.getItem(promptKey)) {
+    if (
+      !promptKey ||
+      !notificationData ||
+      notificationData.discordUserId ||
+      localStorage.getItem(promptKey)
+    ) {
       return;
     }
 
-    let isCancelled = false;
-
-    getNotificationSettingsRequest()
-      .then(({ data }) => {
-        if (isCancelled || data.discordUserId) {
-          return;
-        }
-
-        localStorage.setItem(promptKey, "true");
-        setIsDiscordPromptOpen(true);
-      })
-      .catch((error) => {
-        console.error("알림 설정 조회 실패:", error);
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+    localStorage.setItem(promptKey, "true");
+    setIsDiscordPromptOpen(true);
+  }, [notificationQuery.data, promptKey]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleCategoryChange = (nextCategory) => {
     setCategory(nextCategory);
     setPage(0);
   };
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    setIsLoading(true);
-
-    getBoardsRequest(page, 10, category)
-      .then((response) => {
-        if (isCancelled) {
-          return;
-        }
-
-        setPosts(response.data?.content ?? []);
-        setTotalPages(response.data?.totalPages ?? 0);
-        setErrorMessage("");
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("질문 목록 조회 실패:", error);
-        setErrorMessage("질문을 불러오지 못했습니다.");
-      })
-      .finally(() => {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [page, category]);
 
   return (
     <>

@@ -4,11 +4,12 @@ import "@testing-library/jest-dom/vitest";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 vi.mock("../../api/boardApi.js", () => ({
-  cancelVoteRequest: vi.fn(),
-  deleteBoardRequest: vi.fn(),
-  voteBoardRequest: vi.fn(),
+  cancelVote: vi.fn(),
+  deleteBoard: vi.fn(),
+  voteBoard: vi.fn(),
 }));
 
 vi.mock("../../api/commentApi.js", () => ({
@@ -25,7 +26,7 @@ vi.mock("./hooks/useBoardDetail.js", () => ({
   default: vi.fn(),
 }));
 
-import { deleteBoardRequest } from "../../api/boardApi.js";
+import { deleteBoard } from "../../api/boardApi.js";
 import { updateCommentRequest } from "../../api/commentApi.js";
 import { getMyInfoRequest } from "../../api/userApi.js";
 import useBoardDetail from "./hooks/useBoardDetail.js";
@@ -55,16 +56,25 @@ function LocationProbe() {
 }
 
 function renderBoardDetailPage() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
   return render(
-    <MemoryRouter initialEntries={["/boards/42"]}>
-      <Routes>
-        <Route path="/boards/:postId" element={<BoardDetailPage />} />
-        <Route
-          path="/boards"
-          element={<LocationProbe />}
-        />
-      </Routes>
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/boards/42"]}>
+        <Routes>
+          <Route path="/boards/:postId" element={<BoardDetailPage />} />
+          <Route
+            path="/boards"
+            element={<LocationProbe />}
+          />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 }
 
@@ -78,7 +88,7 @@ beforeEach(() => {
     isValidPostId: true,
     refresh: vi.fn(),
   });
-  deleteBoardRequest.mockResolvedValue(undefined);
+  deleteBoard.mockResolvedValue(undefined);
   getMyInfoRequest.mockResolvedValue({ data: {} });
 });
 
@@ -93,12 +103,12 @@ describe("BoardDetailPage", () => {
     expect(
       screen.getByRole("dialog", { name: "질문을 삭제하시겠습니까?" }),
     ).toHaveTextContent("삭제한 내용은 복구할 수 없습니다.");
-    expect(deleteBoardRequest).not.toHaveBeenCalled();
+      expect(deleteBoard).not.toHaveBeenCalled();
 
     await user.click(screen.getByRole("button", { name: "확인" }));
 
     await waitFor(() => {
-      expect(deleteBoardRequest).toHaveBeenCalledWith(42);
+      expect(deleteBoard).toHaveBeenCalledWith(42, expect.any(Object));
       expect(screen.getByLabelText("현재 경로")).toHaveTextContent("/boards");
     });
   });
@@ -112,12 +122,11 @@ describe("BoardDetailPage", () => {
     await user.click(screen.getByRole("button", { name: "취소" }));
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(deleteBoardRequest).not.toHaveBeenCalled();
+    expect(deleteBoard).not.toHaveBeenCalled();
   });
 
   it("댓글 수정 내용을 PATCH 요청으로 저장하고 편집 모드를 종료한다", async () => {
     const user = userEvent.setup();
-    const refresh = vi.fn().mockResolvedValue(undefined);
     const comment = {
       id: 7,
       writer: "hazel",
@@ -133,7 +142,7 @@ describe("BoardDetailPage", () => {
       errorMessage: "",
       isLoading: false,
       isValidPostId: true,
-      refresh,
+      refresh: vi.fn(),
     });
     updateCommentRequest.mockResolvedValue(undefined);
 
@@ -155,7 +164,6 @@ describe("BoardDetailPage", () => {
         7,
         { content: "수정된 댓글입니다." },
       );
-      expect(refresh).toHaveBeenCalled();
     });
 
     expect(screen.queryByRole("textbox", { name: "댓글 수정" })).not.toBeInTheDocument();

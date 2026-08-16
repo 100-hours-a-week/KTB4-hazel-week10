@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/header/index.jsx";
 import Input from "@/components/input/index.jsx";
-import { loginRequest } from "@/api/authApi.js";
+import { useLogin } from "@/hooks/useAuthMutations.js";
 import { INITIAL_FORM_VALUES, INITIAL_HELPER_TEXTS } from "./initialState";
 import "./index.css";
 
@@ -35,7 +35,8 @@ function LoginPage() {
 
   const [formValues, setFormValues] = useState(INITIAL_FORM_VALUES);
   const [helperTexts, setHelperTexts] = useState(INITIAL_HELPER_TEXTS);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const loginMutation = useLogin();
+  const isSubmitting = loginMutation.isPending;
 
   const handleChange = ({ target: { name, value } }) => {
     setFormValues((prev) => ({
@@ -60,9 +61,7 @@ function LoginPage() {
     }
 
     try {
-      setIsSubmitting(true);
-
-      const { data } = await loginRequest({
+      const { data } = await loginMutation.mutateAsync({
         email: formValues.email.trim(),
         password: formValues.password,
       });
@@ -76,8 +75,6 @@ function LoginPage() {
         ...prev,
         password: "이메일 또는 비밀번호가 올바르지 않습니다.",
       }));
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

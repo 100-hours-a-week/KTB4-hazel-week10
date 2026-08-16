@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { logoutRequest } from "@/api/authApi.js";
 import { getMyInfoRequest } from "@/api/userApi.js";
+import { useLogout } from "@/hooks/useAuthMutations.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import "./index.css";
 
@@ -10,6 +10,7 @@ function Header({ type = "default" }) {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const logoutMutation = useLogout();
 
   const dropdownRef = useRef(null);
   const profileButtonRef = useRef(null);
@@ -84,7 +85,7 @@ function Header({ type = "default" }) {
 
   const handleLogoutClick = async () => {
     try {
-      await logoutRequest();
+      await logoutMutation.mutateAsync();
     } catch (error) {
       console.error("로그아웃 실패:", error);
     } finally {

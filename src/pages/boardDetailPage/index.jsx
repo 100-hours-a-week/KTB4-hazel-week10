@@ -3,10 +3,16 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import Header from "../../components/header/index.jsx";
 import Modal from "../../components/modal/index.jsx";
-import useBooleanState from "../../utils/useBooleanState.js";
-
-import { deleteBoardRequest, voteBoardRequest, cancelVoteRequest } from "../../api/boardApi.js";
-import { createCommentRequest, deleteCommentRequest, updateCommentRequest } from "../../api/commentApi.js";
+import {
+  useCancelVote,
+  useDeleteBoard,
+  useVoteBoard,
+} from "@/hooks/useBoardMutations.js";
+import {
+  useCreateComment,
+  useDeleteComment,
+  useUpdateComment,
+} from "@/hooks/useCommentMutations.js";
 
 import PostContent from "./components/PostContent.jsx";
 import CommentItem from "./components/CommentItem.jsx";
@@ -31,12 +37,28 @@ function BoardDetailPage() {
       searchParams.get("id"),
   );
 
-  const { post, comments, errorMessage, isLoading, isValidPostId, refresh } = useBoardDetail(postId);
+  const {
+    post,
+    comments,
+    errorMessage,
+    isLoading,
+    isValidPostId,
+    refresh,
+  } = useBoardDetail(postId);
   const [ commentContent, setCommentContent ] = useState("");
   const [ selectedCommentId, setSelectedCommentId ] = useState(null);
   const [ isPostDeleteModalOpen, setIsPostDeleteModalOpen ] = useState(false);
-  const {value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting} = useBooleanState(false);
-  const {value: isDeleting, setTrue: startDeleting, setFalse: finishDeleting} = useBooleanState(false);
+
+  const deleteBoardMutation = useDeleteBoard();
+  const voteMutation = useVoteBoard();
+  const cancelVoteMutation = useCancelVote();
+  const createCommentMutation = useCreateComment();
+  const updateCommentMutation = useUpdateComment();
+  const deleteCommentMutation = useDeleteComment();
+
+  const isSubmitting = createCommentMutation.isPending;
+  const isDeleting =
+    deleteBoardMutation.isPending || deleteCommentMutation.isPending;
 
   useEffect(() => {
     document.title = "질문 상세";
@@ -56,8 +78,7 @@ function BoardDetailPage() {
     }
 
     try {
-      startDeleting();
-      await deleteBoardRequest(postId);
+      await deleteBoardMutation.mutateAsync(postId);
       setIsPostDeleteModalOpen(false);
       navigate(BOARD_LIST_PATH);
     } catch (error) {
@@ -65,8 +86,6 @@ function BoardDetailPage() {
         error.message ||
           "질문 삭제에 실패했습니다.",
       );
-    } finally {
-      finishDeleting();
     }
   };
 
@@ -77,20 +96,21 @@ function BoardDetailPage() {
 
     try {
       if (post.myVoteType === voteType) {
-        await cancelVoteRequest(postId);
+        await cancelVoteMutation.mutateAsync(postId);
       } else {
         // 찬성 <-> 반대 변경도 서버가 한 번에 처리한다.
-        await voteBoardRequest(postId, voteType);
+        await voteMutation.mutateAsync({
+          boardId: postId,
+          voteType,
+        });
       }
-
-      await refresh();
     } catch (error) {
       window.alert(
         error.message ||
           "투표에 실패했습니다.",
       );
 
-      // 실패 지점에 따라 서버 상태를 알 수 없으므로 다시 불러와 맞춘다.
+      // 실패 지점에 따라 서버 상태를 알 수 없으므로 캐시를 다시 확인한다.
       await refresh().catch(() => {});
     }
   };
@@ -110,35 +130,28 @@ function BoardDetailPage() {
     }
 
     try {
-      startSubmitting();
-
-      await createCommentRequest(
-        postId,
-        { content },
-      );
+      await createCommentMutation.mutateAsync({
+        boardId: postId,
+        data: { content },
+      });
 
       setCommentContent("");
-      await refresh();
     } catch (error) {
       window.alert(
         error.message ||
           "댓글 등록에 실패했습니다.",
       );
-    } finally {
-      finishSubmitting();
     }
   };
 
   const handleEditComment =
     async (comment, content) => {
       try {
-        await updateCommentRequest(
-          postId,
-          comment.id,
-          { content },
-        );
-
-        await refresh();
+        await updateCommentMutation.mutateAsync({
+          boardId: postId,
+          commentId: comment.id,
+          data: { content },
+        });
       } catch (error) {
         window.alert(
           error.message ||
@@ -159,22 +172,17 @@ function BoardDetailPage() {
       }
 
       try {
-        startDeleting();
-
-        await deleteCommentRequest(
-          postId,
-          selectedCommentId,
-        );
+        await deleteCommentMutation.mutateAsync({
+          boardId: postId,
+          commentId: selectedCommentId,
+        });
 
         setSelectedCommentId(null);
-        await refresh();
       } catch (error) {
         window.alert(
           error.message ||
             "댓글 삭제에 실패했습니다.",
         );
-      } finally {
-        finishDeleting();
       }
     };
 

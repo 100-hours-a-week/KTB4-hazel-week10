@@ -57,3 +57,13 @@ export async function cancelVote(boardId) {
 
   return response.data;
 }
+
+// 기존 페이지와의 호환을 위한 별칭입니다. 새 코드는 위의 짧은 함수명을 사용합니다.
+export const getBoardsRequest = getBoards;
+export const getSelectedBoardsRequest = getSelectedBoards;
+export const getBoardDetailRequest = getBoardDetail;
+export const updateBoardRequest = updateBoard;
+export const createBoardRequest = createBoard;
+export const deleteBoardRequest = deleteBoard;
+export const voteBoardRequest = voteBoard;
+export const cancelVoteRequest = cancelVote;

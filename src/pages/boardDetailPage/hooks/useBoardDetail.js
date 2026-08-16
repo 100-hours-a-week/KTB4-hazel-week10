@@ -1,79 +1,50 @@
-import { useEffect, useState} from "react";
-import { fetchBoardDetail } from "../detailService.js";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const INITIAL_DETAIL = {
-  loadedPostId: null,
-  post: null,
-  comments: [],
-  errorMessage: "",
-};
+import boardQueries from "@/queryFactory/boardQueries.js";
+import commentQueries from "@/queryFactory/commentQueries.js";
+
+function getPost(response) {
+  return response?.data ?? null;
+}
+
+function getComments(response) {
+  return response?.data?.comments ?? response?.data ?? [];
+}
 
 export default function useBoardDetail(postId) {
-  const [detail, setDetail] = useState(INITIAL_DETAIL);
+  const queryClient = useQueryClient();
   const isValidPostId = Number.isInteger(postId) && postId > 0;
 
-  useEffect(() => {
+  const boardQuery = useQuery(boardQueries.detail(postId));
+  const commentQuery = useQuery(commentQueries.list(postId));
+
+  const refresh = async () => {
     if (!isValidPostId) {
-      return undefined;
+      return;
     }
 
-    let isCancelled = false;
+    const [detailData, commentsData] = await Promise.all([
+      queryClient.fetchQuery(boardQueries.detail(postId, false)),
+      queryClient.fetchQuery(commentQueries.list(postId)),
+    ]);
 
-    fetchBoardDetail(postId)
-      .then((data) => {
-        if (isCancelled) {
-          return;
-        }
-
-        setDetail({
-          loadedPostId: postId,
-          post: data.post,
-          comments: data.comments,
-          errorMessage: "",
-        });
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("질문 상세 조회 실패:", error);
-
-        setDetail({
-          loadedPostId: postId,
-          post: null,
-          comments: [],
-          errorMessage:
-            error.message ||
-            "질문을 불러오지 못했습니다.",
-        });
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [postId, isValidPostId]);
-
-  // 갱신은 새 조회가 아니므로 조회수를 올리지 않는다.
-  const refresh = async () => {
-    const data = await fetchBoardDetail(postId, false);
-
-    setDetail({
-      loadedPostId: postId,
-      post: data.post,
-      comments: data.comments,
-      errorMessage: "",
-    });
+    queryClient.setQueryData(
+      boardQueries.detail(postId).queryKey,
+      detailData,
+    );
+    queryClient.setQueryData(
+      commentQueries.listKeys(postId),
+      commentsData,
+    );
   };
 
-  const isLoading = isValidPostId && detail.loadedPostId !== postId;
+  const error = boardQuery.error || commentQuery.error;
 
   return {
-    post: detail.loadedPostId === postId ? detail.post : null,
-    comments: detail.loadedPostId === postId ? detail.comments : [],
-    errorMessage: detail.loadedPostId === postId ? detail.errorMessage : "",
-
-    isLoading,
+    post: getPost(boardQuery.data),
+    comments: getComments(commentQuery.data),
+    errorMessage: error?.message || "",
+    isLoading: isValidPostId && (boardQuery.isPending || commentQuery.isPending),
     isValidPostId,
     refresh,
   };

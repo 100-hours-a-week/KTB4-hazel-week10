@@ -4,6 +4,7 @@ import "@testing-library/jest-dom/vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 vi.mock("@/api/authApi.js", () => ({
   logoutRequest: vi.fn(),
@@ -25,13 +26,22 @@ function LocationProbe() {
 }
 
 function renderUserEditPage() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
   return render(
-    <MemoryRouter initialEntries={["/users/edit"]}>
-      <Routes>
-        <Route path="/users/edit" element={<UserEditPage />} />
-        <Route path="/login" element={<LocationProbe />} />
-      </Routes>
-    </MemoryRouter>,
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/users/edit"]}>
+        <Routes>
+          <Route path="/users/edit" element={<UserEditPage />} />
+          <Route path="/login" element={<LocationProbe />} />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 }
 

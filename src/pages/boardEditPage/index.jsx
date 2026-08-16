@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Header from "../../components/header/index.jsx";
-import { getBoardDetailRequest, updateBoardRequest } from "../../api/boardApi.js";
-import useBooleanState from "../../utils/useBooleanState.js";
+import boardQueries from "@/queryFactory/boardQueries.js";
+import { useUpdateBoard } from "@/hooks/useBoardMutations.js";
 import ImagePreviewList from "./components/ImagePreviewList.jsx";
 import { INITIAL_ERRORS, INITIAL_FORM } from "./initialState.js";
 import { createBoardFormData, getImageFileText, hasValidationError, normalizeEditForm, validateEditForm } from "./boardEditUtils.js";
@@ -26,58 +27,36 @@ function BoardEditPage() {
   const [errors, setErrors] = useState(INITIAL_ERRORS);
   const [currentImages, setCurrentImages] = useState([]);
   const [newImages, setNewImages] = useState([]);
-  const [loadedPostId, setLoadedPostId] = useState(null);
-  const [loadErrorMessage, setLoadErrorMessage] = useState("");
-
-  const { value: isSubmitting, setTrue: startSubmitting, setFalse: finishSubmitting } = useBooleanState(false);
-
-  const isLoading = isValidPostId && loadedPostId !== postId;
+  const boardDetailQuery = useQuery(boardQueries.detail(postId));
+  const updateBoardMutation = useUpdateBoard();
+  const isSubmitting = updateBoardMutation.isPending;
+  const isLoading = isValidPostId && boardDetailQuery.isPending;
+  const loadErrorMessage = boardDetailQuery.error?.message || "";
   const imageFileText = getImageFileText(currentImages, newImages);
 
+  // 서버에서 불러온 게시글을 수정 폼의 초기값으로 주입합니다.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     document.title = "질문 수정";
   }, []);
 
   useEffect(() => {
-    if (!isValidPostId) {
-      return undefined;
+    const data = boardDetailQuery.data?.data;
+
+    if (!data) {
+      return;
     }
 
-    let isCancelled = false;
-
-    getBoardDetailRequest(postId)
-      .then(({ data }) => {
-        if (isCancelled) {
-          return;
-        }
-
-        setForm({
-          title: data.title ?? "",
-          category: data.category ?? "",
-          content: data.text ?? "",
-        });
-        setCurrentImages(data.images ?? []);
-        setNewImages([]);
-        setErrors(INITIAL_ERRORS);
-        setLoadErrorMessage("");
-        setLoadedPostId(postId);
-      })
-      .catch((error) => {
-        if (isCancelled) {
-          return;
-        }
-
-        console.error("질문 조회 실패:", error);
-        setLoadErrorMessage(
-          error.message || "질문을 불러오지 못했습니다.",
-        );
-        setLoadedPostId(postId);
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [postId, isValidPostId]);
+    setForm({
+      title: data.title ?? "",
+      category: data.category ?? "",
+      content: data.text ?? "",
+    });
+    setCurrentImages(data.images ?? []);
+    setNewImages([]);
+    setErrors(INITIAL_ERRORS);
+  }, [boardDetailQuery.data]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleInputChange = ({ target: { name, value } }) => {
     setForm((prev) => ({
@@ -137,15 +116,14 @@ function BoardEditPage() {
     });
 
     try {
-      startSubmitting();
-
-      await updateBoardRequest(postId, formData);
+      await updateBoardMutation.mutateAsync({
+        boardId: postId,
+        data: formData,
+      });
       navigate(getBoardDetailPath(postId));
     } catch (error) {
       console.error("질문 수정 실패:", error);
       window.alert(error.message || "질문 수정에 실패했습니다.");
-    } finally {
-      finishSubmitting();
     }
   };
 

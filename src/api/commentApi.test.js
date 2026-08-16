@@ -8,12 +8,7 @@ vi.mock("./http.js", () => ({
 }));
 
 import apiClient from "./http.js";
-import {
-  createCommentRequest,
-  deleteCommentRequest,
-  getCommentsRequest,
-  updateCommentRequest,
-} from "./commentApi.js";
+import { createCommentRequest, deleteCommentRequest, getCommentsRequest, updateCommentRequest } from "./commentApi.js";
 
 beforeEach(() => {
   vi.clearAllMocks();

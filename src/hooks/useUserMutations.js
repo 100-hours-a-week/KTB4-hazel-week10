@@ -1,12 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import {
-  changePasswordRequest,
-  connectDiscordAccountRequest,
-  deleteMyAccountRequest,
-  updateMyInfoRequest,
-  updateNotificationSettingsRequest,
-} from "@/api/userApi.js";
+import { changePasswordRequest, connectDiscordAccountRequest, deleteMyAccountRequest, updateMyInfoRequest, updateNotificationSettingsRequest } from "@/api/userApi.js";
 import userQueries from "@/queryFactory/userQueries.js";
 
 export function useUpdateMyInfo() {

@@ -1,7 +1,4 @@
-import {
-  clearAuthData,
-  createUserEditFormData,
-} from "./userEditUtils.js";
+import { clearAuthData, createUserEditFormData } from "./userEditUtils.js";
 
 const PROFILE_IMAGE = new File(["profile"], "profile.png", {
   type: "image/png",

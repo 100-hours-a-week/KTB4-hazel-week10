@@ -4,10 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header/index.jsx";
 import Modal from "@/components/modal/index.jsx";
 import userQueries from "@/queryFactory/userQueries.js";
-import {
-  useDeleteMyAccount,
-  useUpdateMyInfo,
-} from "@/hooks/useUserMutations.js";
+import { useDeleteMyAccount, useUpdateMyInfo } from "@/hooks/useUserMutations.js";
 import { resolveImageUrl } from "@/utils/resolveImageUrl.js";
 import UserEditForm from "./components/UserEditForm.jsx";
 import FormSkeleton from "@/components/skeleton/FormSkeleton.jsx";

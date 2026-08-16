@@ -1,10 +1,4 @@
-import {
-  createBoardFormData,
-  getImageFileText,
-  hasValidationError,
-  normalizeEditForm,
-  validateEditForm,
-} from "./boardEditUtils.js";
+import { createBoardFormData, getImageFileText, hasValidationError, normalizeEditForm, validateEditForm } from "./boardEditUtils.js";
 
 const VALID_FORM = {
   title: "기존 질문",

@@ -1,10 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import {
-  getDiscordAuthorizeUrlRequest,
-  getMyInfoRequest,
-  getNotificationSettingsRequest,
-} from "../api/userApi.js";
+import { getDiscordAuthorizeUrlRequest, getMyInfoRequest, getNotificationSettingsRequest } from "../api/userApi.js";
 
 const userQueries = {
   allKeys: () => ["users"],

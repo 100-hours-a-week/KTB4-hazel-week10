@@ -9,12 +9,7 @@ import ProfileImageField from "./components/ProfileImageField.jsx";
 import { INITIAL_FORM, INITIAL_ERRORS } from "./initialState.js";
 import { INPUT_FIELDS } from "./signupFields.js";
 
-import {
-  createSignupFormData,
-  hasValidationError,
-  normalizeSignupForm,
-  validateSignupForm,
-} from "./signupFormUtils.js";
+import { createSignupFormData, hasValidationError, normalizeSignupForm, validateSignupForm } from "./signupFormUtils.js";
 
 import "./index.css";
 

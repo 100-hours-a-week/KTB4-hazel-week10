@@ -1,9 +1,4 @@
-import {
-  createSignupFormData,
-  hasValidationError,
-  normalizeSignupForm,
-  validateSignupForm,
-} from "./signupFormUtils";
+import { createSignupFormData, hasValidationError, normalizeSignupForm, validateSignupForm } from "./signupFormUtils";
 import { INITIAL_ERRORS } from "./initialState";
 
 const VALID_FORM = {

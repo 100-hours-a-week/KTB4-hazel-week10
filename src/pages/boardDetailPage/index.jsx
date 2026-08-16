@@ -3,16 +3,8 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import Header from "../../components/header/index.jsx";
 import Modal from "../../components/modal/index.jsx";
-import {
-  useCancelVote,
-  useDeleteBoard,
-  useVoteBoard,
-} from "@/hooks/useBoardMutations.js";
-import {
-  useCreateComment,
-  useDeleteComment,
-  useUpdateComment,
-} from "@/hooks/useCommentMutations.js";
+import { useCancelVote, useDeleteBoard, useVoteBoard } from "@/hooks/useBoardMutations.js";
+import { useCreateComment, useDeleteComment, useUpdateComment } from "@/hooks/useCommentMutations.js";
 
 import PostContent from "./components/PostContent.jsx";
 import CommentItem from "./components/CommentItem.jsx";
@@ -37,14 +29,7 @@ function BoardDetailPage() {
       searchParams.get("id"),
   );
 
-  const {
-    post,
-    comments,
-    errorMessage,
-    isLoading,
-    isValidPostId,
-    refresh,
-  } = useBoardDetail(postId);
+  const { post, comments, errorMessage, isLoading, isValidPostId, refresh } = useBoardDetail(postId);
   const [ commentContent, setCommentContent ] = useState("");
   const [ selectedCommentId, setSelectedCommentId ] = useState(null);
   const [ isPostDeleteModalOpen, setIsPostDeleteModalOpen ] = useState(false);

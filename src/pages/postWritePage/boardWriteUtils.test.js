@@ -1,9 +1,4 @@
-import {
-  createBoardFormData,
-  hasValidationError,
-  normalizeBoardForm,
-  validateBoardForm,
-} from "./boardWriteUtils.js";
+import { createBoardFormData, hasValidationError, normalizeBoardForm, validateBoardForm } from "./boardWriteUtils.js";
 
 const VALID_FORM = {
   title: "React 질문",

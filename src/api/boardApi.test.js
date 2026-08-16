@@ -8,16 +8,7 @@ vi.mock("./http.js", () => ({
 }));
 
 import apiClient from "./http.js";
-import {
-  cancelVoteRequest,
-  createBoardRequest,
-  deleteBoardRequest,
-  getBoardDetailRequest,
-  getBoardsRequest,
-  getSelectedBoardsRequest,
-  updateBoardRequest,
-  voteBoardRequest,
-} from "./boardApi.js";
+import { cancelVoteRequest, createBoardRequest, deleteBoardRequest, getBoardDetailRequest, getBoardsRequest, getSelectedBoardsRequest, updateBoardRequest, voteBoardRequest } from "./boardApi.js";
 
 beforeEach(() => {
   vi.clearAllMocks();

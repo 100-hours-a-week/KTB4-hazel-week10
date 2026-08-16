@@ -1,8 +1,4 @@
-import {
-  hasValidationError,
-  normalizePasswordForm,
-  validatePasswordForm,
-} from "./passwordEditValidation.js";
+import { hasValidationError, normalizePasswordForm, validatePasswordForm } from "./passwordEditValidation.js";
 
 const VALID_FORM = {
   currentPassword: "Current1!",

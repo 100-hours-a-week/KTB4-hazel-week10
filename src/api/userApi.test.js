@@ -8,16 +8,7 @@ vi.mock("./http.js", () => ({
 }));
 
 import apiClient from "./http.js";
-import {
-  changePasswordRequest,
-  connectDiscordAccountRequest,
-  deleteMyAccountRequest,
-  getDiscordAuthorizeUrlRequest,
-  getMyInfoRequest,
-  getNotificationSettingsRequest,
-  updateMyInfoRequest,
-  updateNotificationSettingsRequest,
-} from "./userApi.js";
+import { changePasswordRequest, connectDiscordAccountRequest, deleteMyAccountRequest, getDiscordAuthorizeUrlRequest, getMyInfoRequest, getNotificationSettingsRequest, updateMyInfoRequest, updateNotificationSettingsRequest } from "./userApi.js";
 
 beforeEach(() => {
   vi.clearAllMocks();

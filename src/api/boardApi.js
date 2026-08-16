@@ -1,56 +1,59 @@
-import { request } from "./http.js";
+import apiClient from "./http.js";
 
-export function getBoardsRequest(page = 0, size = 10, category = "") {
+export async function getBoards(page = 0, size = 10, category = "") {
   const categoryQuery = category ? `&category=${category}` : "";
+  const response = await apiClient.get(
+    `/boards?page=${page}&size=${size}${categoryQuery}`,
+  );
 
-  return request(`/boards?page=${page}&size=${size}${categoryQuery}`, {
-    method: "GET",
-  });
+  return response.data;
 }
 
-export function getSelectedBoardsRequest(page = 0, size = 10, category = "") {
+export async function getSelectedBoards(page = 0, size = 10, category = "") {
   const categoryQuery = category ? `&category=${category}` : "";
+  const response = await apiClient.get(
+    `/boards/selected?page=${page}&size=${size}${categoryQuery}`,
+  );
 
-  return request(`/boards/selected?page=${page}&size=${size}${categoryQuery}`, {
-    method: "GET",
-  });
+  return response.data;
 }
 
-export function getBoardDetailRequest(boardId, countView = true) {
-  return request(`/boards/${boardId}?countView=${countView}`, {
-    method: "GET",
-  });
+export async function getBoardDetail(boardId, countView = true) {
+  const response = await apiClient.get(
+    `/boards/${boardId}?countView=${countView}`,
+  );
+
+  return response.data;
 }
 
-export function updateBoardRequest(boardId, data) {
-  return request(`/boards/${boardId}`, {
-    method: "PATCH",
-    body: data,
-  });
+export async function updateBoard(boardId, data) {
+  const response = await apiClient.patch(`/boards/${boardId}`, data);
+
+  return response.data;
 }
 
-export function createBoardRequest(data) {
-  return request("/boards", {
-    method: "POST",
-    body: data,
-  });
+export async function createBoard(data) {
+  const response = await apiClient.post("/boards", data);
+
+  return response.data;
 }
 
-export function deleteBoardRequest(boardId) {
-  return request(`/boards/${boardId}`, {
-    method: "DELETE",
-  });
+export async function deleteBoard(boardId) {
+  const response = await apiClient.delete(`/boards/${boardId}`);
+
+  return response.data;
 }
 
-export function voteBoardRequest(boardId, voteType) {
-  return request(`/boards/${boardId}/votes`, {
-    method: "POST",
-    body: JSON.stringify({ voteType }),
+export async function voteBoard(boardId, voteType) {
+  const response = await apiClient.post(`/boards/${boardId}/votes`, {
+    voteType,
   });
+
+  return response.data;
 }
 
-export function cancelVoteRequest(boardId) {
-  return request(`/boards/${boardId}/votes`, {
-    method: "DELETE",
-  });
+export async function cancelVote(boardId) {
+  const response = await apiClient.delete(`/boards/${boardId}/votes`);
+
+  return response.data;
 }

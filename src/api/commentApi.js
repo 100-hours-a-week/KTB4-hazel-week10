@@ -1,27 +1,30 @@
-import { request } from "./http.js";
+import apiClient from "./http.js";
 
-export function getCommentsRequest(boardId) {
-  return request(`/boards/${boardId}/comments`, {
-    method: "GET",
-  });
+export async function getCommentsRequest(boardId) {
+  const response = await apiClient.get(`/boards/${boardId}/comments`);
+
+  return response.data;
 }
 
-export function createCommentRequest(boardId, data) {
-  return request(`/boards/${boardId}/comments`, {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
+export async function createCommentRequest(boardId, data) {
+  const response = await apiClient.post(`/boards/${boardId}/comments`, data);
+
+  return response.data;
 }
 
-export function updateCommentRequest(boardId, commentId, data) {
-  return request(`/boards/${boardId}/comments/${commentId}`, {
-    method: "PATCH",
-    body: JSON.stringify(data),
-  });
+export async function updateCommentRequest(boardId, commentId, data) {
+  const response = await apiClient.patch(
+    `/boards/${boardId}/comments/${commentId}`,
+    data,
+  );
+
+  return response.data;
 }
 
-export function deleteCommentRequest(boardId, commentId) {
-  return request(`/boards/${boardId}/comments/${commentId}`, {
-    method: "DELETE",
-  });
+export async function deleteCommentRequest(boardId, commentId) {
+  const response = await apiClient.delete(
+    `/boards/${boardId}/comments/${commentId}`,
+  );
+
+  return response.data;
 }

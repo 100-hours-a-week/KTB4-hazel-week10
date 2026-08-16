@@ -1,21 +1,16 @@
-import { request } from "./http.js";
+import apiClient from "./http.js";
 
-export function loginRequest(data) {
-  return request("/users/login", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
+export async function loginRequest(data) {
+  const response = await apiClient.post("/users/login", data); 
+  return response.data;
 }
 
-export function signupRequest(data) {
-  return request("/users/signup", {
-    method: "POST",
-    body: data,
-  });
+export async function signupRequest(data) {
+  const response = await apiClient.post("/users/signup", data);
+  return response.data;
 }
 
-export function logoutRequest() {
-  return request("/users/logout", {
-    method: "POST",
-  });
+export async function logoutRequest() { 
+  const response = await apiClient.post("/users/logout");
+  return response.data;
 }

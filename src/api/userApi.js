@@ -1,53 +1,55 @@
-import { request } from "./http.js";
+import apiClient from "./http.js";
 
-export function getMyInfoRequest() {
-  return request("/users/me", {
-    method : "GET",
-  })
+export async function getMyInfoRequest() {
+  const response = await apiClient.get("/users/me");
+
+  return response.data;
 }
 
-export function updateMyInfoRequest(data) {
-  return request("/users/me", {
-    method: "PATCH",
-    body: data
-  })
+export async function updateMyInfoRequest(data) {
+  const response = await apiClient.patch("/users/me", data);
+
+  return response.data;
 }
 
-export function changePasswordRequest(data) {
-  return request("/users/me/password", {
-    method: "PATCH",
-    body: JSON.stringify(data),
-  })
+export async function changePasswordRequest(data) {
+  const response = await apiClient.patch("/users/me/password", data);
+
+  return response.data;
 }
 
-export function deleteMyAccountRequest() {
-  return request("/users/me", {
-    method: "DELETE",
+export async function deleteMyAccountRequest() {
+  const response = await apiClient.delete("/users/me");
+
+  return response.data;
+}
+
+export async function getNotificationSettingsRequest() {
+  const response = await apiClient.get("/users/me/notification-settings");
+
+  return response.data;
+}
+
+export async function updateNotificationSettingsRequest(data) {
+  const response = await apiClient.patch(
+    "/users/me/notification-settings",
+    data,
+  );
+
+  return response.data;
+}
+
+export async function getDiscordAuthorizeUrlRequest() {
+  const response = await apiClient.get("/users/me/discord/authorize-url");
+
+  return response.data;
+}
+
+export async function connectDiscordAccountRequest(code, state) {
+  const response = await apiClient.post("/users/me/discord/connect", {
+    code,
+    state,
   });
-}
 
-export function getNotificationSettingsRequest() {
-  return request("/users/me/notification-settings", {
-    method: "GET",
-  });
-}
-
-export function updateNotificationSettingsRequest(data) {
-  return request("/users/me/notification-settings", {
-    method: "PATCH",
-    body: JSON.stringify(data),
-  });
-}
-
-export function getDiscordAuthorizeUrlRequest() {
-  return request("/users/me/discord/authorize-url", {
-    method: "GET",
-  });
-}
-
-export function connectDiscordAccountRequest(code, state) {
-  return request("/users/me/discord/connect", {
-    method: "POST",
-    body: JSON.stringify({ code, state }),
-  });
+  return response.data;
 }
